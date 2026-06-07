@@ -7,23 +7,34 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT,
+// ── POOL DE CONEXIONES ────────────────────────────────────────────────────────
+// Se usa pool en lugar de createConnection para que Railway no tire el servidor
+// cuando la conexión MySQL se cierra por inactividad (error 4031).
+// El pool crea nuevas conexiones automáticamente cuando las necesita.
+const db = mysql.createPool({
+  host:              process.env.MYSQLHOST,
+  user:              process.env.MYSQLUSER,
+  password:          process.env.MYSQLPASSWORD,
+  database:          process.env.MYSQLDATABASE,
+  port:              process.env.MYSQLPORT,
+  waitForConnections: true,
+  connectionLimit:   10,
+  queueLimit:        0,
+  enableKeepAlive:   true,
+  keepAliveInitialDelay: 0,
 });
 
-db.connect((err) => {
+// Verificar conexión al arrancar
+db.getConnection((err, connection) => {
   if (err) {
-    console.log('Error conectando a MySQL:', err);
+    console.log('❌ Error conectando a MySQL:', err.message);
     return;
   }
   console.log('✅ Conectado a MySQL correctamente');
+  connection.release();
 });
 
-// ── REGISTRO DE USUARIO ──
+// ── REGISTRO DE USUARIO ───────────────────────────────────────────────────────
 app.post('/registro', async (req, res) => {
   const { nombre_usuario, email, contraseña } = req.body;
   const hash = await bcrypt.hash(contraseña, 10);
@@ -34,7 +45,7 @@ app.post('/registro', async (req, res) => {
   });
 });
 
-// ── LOGIN ──
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
 app.post('/login', (req, res) => {
   const { email, contraseña } = req.body;
   const sql = 'SELECT * FROM Usuario WHERE email = ?';
@@ -48,7 +59,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-// ── GUARDAR PERFIL DEL PERRO ──
+// ── GUARDAR PERFIL DEL PERRO ──────────────────────────────────────────────────
 app.post('/perro', (req, res) => {
   const { id_usuario, nombre_perro, edad_perro, sexo } = req.body;
   const sql = 'INSERT INTO Perro (id_usuario, nombre_perro, edad_perro, sexo) VALUES (?, ?, ?, ?)';
@@ -58,7 +69,7 @@ app.post('/perro', (req, res) => {
   });
 });
 
-// ── OBTENER PERFIL DEL PERRO ──
+// ── OBTENER PERFIL DEL PERRO ──────────────────────────────────────────────────
 app.get('/perro/:id_usuario', (req, res) => {
   const sql = 'SELECT * FROM Perro WHERE id_usuario = ?';
   db.query(sql, [req.params.id_usuario], (err, results) => {
@@ -68,7 +79,7 @@ app.get('/perro/:id_usuario', (req, res) => {
   });
 });
 
-// ── EDITAR PERFIL DEL PERRO ──
+// ── EDITAR PERFIL DEL PERRO ───────────────────────────────────────────────────
 app.put('/perro/:id_usuario', (req, res) => {
   const { nombre_perro, edad_perro, sexo } = req.body;
   const sql = 'UPDATE Perro SET nombre_perro=?, edad_perro=?, sexo=? WHERE id_usuario=?';
@@ -78,7 +89,7 @@ app.put('/perro/:id_usuario', (req, res) => {
   });
 });
 
-// ── GUARDAR HISTORIAL ──
+// ── GUARDAR HISTORIAL ─────────────────────────────────────────────────────────
 app.post('/historial', (req, res) => {
   const { id_perro, temperatura, bpm, rpm, fecha, hora } = req.body;
   const sql = 'INSERT INTO Historial (id_perro, temperatura, bpm, rpm, fecha, hora) VALUES (?, ?, ?, ?, ?, ?)';
@@ -88,7 +99,7 @@ app.post('/historial', (req, res) => {
   });
 });
 
-// ── OBTENER HISTORIAL ──
+// ── OBTENER HISTORIAL ─────────────────────────────────────────────────────────
 app.get('/historial/:id_perro', (req, res) => {
   const sql = 'SELECT * FROM Historial WHERE id_perro = ? ORDER BY fecha DESC, hora DESC';
   db.query(sql, [req.params.id_perro], (err, results) => {
@@ -97,6 +108,39 @@ app.get('/historial/:id_perro', (req, res) => {
   });
 });
 
+// ── RECUPERAR CONTRASEÑA ──────────────────────────────────────────────────────
+app.post('/recuperar', (req, res) => {
+  const { email } = req.body;
+  const sql = 'SELECT * FROM Usuario WHERE email = ?';
+  db.query(sql, [email], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'Correo no registrado' });
+    res.json({ mensaje: 'Correo encontrado', id_usuario: results[0].id_usuario });
+  });
+});
+
+// ── RESTABLECER CONTRASEÑA ────────────────────────────────────────────────────
+app.put('/restablecer/:id_usuario', async (req, res) => {
+  const { contraseña } = req.body;
+  const hash = await bcrypt.hash(contraseña, 10);
+  const sql = 'UPDATE Usuario SET contraseña = ? WHERE id_usuario = ?';
+  db.query(sql, [hash, req.params.id_usuario], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ mensaje: 'Contraseña actualizada' });
+  });
+});
+
+// ── OBTENER PERFIL DE USUARIO ─────────────────────────────────────────────────
+app.get('/usuario/:id_usuario', (req, res) => {
+  const sql = 'SELECT id_usuario, nombre_usuario, email FROM Usuario WHERE id_usuario = ?';
+  db.query(sql, [req.params.id_usuario], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'Usuario no encontrado' });
+    res.json(results[0]);
+  });
+});
+
+// ── SERVIDOR ──────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
