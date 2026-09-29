@@ -61,22 +61,50 @@ function createSafetyEvent(input) {
 }
 
 function classifyDriverResponse(events) {
-  const displayed = events.some((event) => event.eventType === 'WARNING_DISPLAYED');
-  const crossed = events.some(
+  const ordered = [...events].sort((a, b) =>
+    String(a.serverRecordedAt || '').localeCompare(
+      String(b.serverRecordedAt || '')
+    )
+  );
+
+  const warningIndex = ordered.findLastIndex(
+    (event) => event.eventType === 'WARNING_DISPLAYED'
+  );
+
+  if (warningIndex < 0) {
+    return 'UNKNOWN';
+  }
+
+  const afterWarning = ordered.slice(warningIndex + 1);
+  const crossedIndex = afterWarning.findIndex(
     (event) => event.eventType === 'HAZARD_BOUNDARY_ENTERED_AFTER_WARNING'
   );
-  const rerouted = events.some((event) => event.eventType === 'ROUTE_CHANGED');
-  const stopped = events.some((event) => event.eventType === 'VEHICLE_STOPPED');
+  const rerouteIndex = afterWarning.findIndex(
+    (event) => event.eventType === 'ROUTE_CHANGED'
+  );
+  const stoppedIndex = afterWarning.findIndex(
+    (event) => event.eventType === 'VEHICLE_STOPPED'
+  );
 
-  if (displayed && crossed && !rerouted && !stopped) {
+  if (
+    crossedIndex >= 0 &&
+    (rerouteIndex < 0 || crossedIndex < rerouteIndex) &&
+    (stoppedIndex < 0 || crossedIndex < stoppedIndex)
+  ) {
     return 'PROCEEDED_AFTER_WARNING';
   }
 
-  if (rerouted) {
+  if (
+    rerouteIndex >= 0 &&
+    (crossedIndex < 0 || rerouteIndex < crossedIndex)
+  ) {
     return 'AVOIDED_HAZARD';
   }
 
-  if (stopped && !crossed) {
+  if (
+    stoppedIndex >= 0 &&
+    (crossedIndex < 0 || stoppedIndex < crossedIndex)
+  ) {
     return 'STOPPED_BEFORE_HAZARD';
   }
 
