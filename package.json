@@ -4,6 +4,7 @@
   },
   "scripts": {
     "import:bridges": "node scripts/import-bridge-records.js",
-    "normalize:fhwa-snbi": "node scripts/normalize-fhwa-snbi.js"
+    "normalize:fhwa-snbi": "node scripts/normalize-fhwa-snbi.js",
+    "normalize:fhwa-2025": "node scripts/normalize-fhwa-2025-delimited.js"
   }
 }
