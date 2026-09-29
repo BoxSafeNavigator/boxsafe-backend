@@ -131,8 +131,7 @@ function getLowBridgeWarnings(truck, routesData) {
         bridgeClearanceMm: bridge.clearanceMm,
         message: `CRITICAL LOW BRIDGE - DO NOT PROCEED: truck height ${truckHeightMm} mm exceeds bridge clearance ${bridge.clearanceMm} mm by ${truckHeightMm - bridge.clearanceMm} mm. REROUTE REQUIRED.`,
         distanceThresholdMeters: 75,
-        unsafe: true,
-        message: `LOW BRIDGE WARNING: truck height ${truckHeightMm} mm exceeds bridge clearance ${bridge.clearanceMm} mm.`
+        unsafe: true
       });
     }
   }
