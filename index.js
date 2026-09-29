@@ -148,31 +148,100 @@ functions.http('helloHttp', async (req, res) => {
       });
     }
 
-    const origin = req.body?.origin || {
-      location: {
-        latLng: {
-          latitude: 33.7488,
-          longitude: -84.3877
-        }
-      }
-    };
+    const inputErrors = [];
 
-    const destination = req.body?.destination || {
-      location: {
-        latLng: {
-          latitude: 33.6407,
-          longitude: -84.4277
-        }
+    function validateWaypoint(name, waypoint) {
+      if (waypoint == null) {
+        return null;
       }
-    };
+
+      const latitude = Number(waypoint?.location?.latLng?.latitude);
+      const longitude = Number(waypoint?.location?.latLng?.longitude);
+
+      if (
+        !Number.isFinite(latitude) ||
+        latitude < -90 ||
+        latitude > 90 ||
+        !Number.isFinite(longitude) ||
+        longitude < -180 ||
+        longitude > 180
+      ) {
+        inputErrors.push(
+          `${name} must contain valid location.latLng latitude and longitude values.`
+        );
+      }
+
+      return waypoint;
+    }
+
+    function positiveNumberOrDefault(value, defaultValue, fieldName) {
+      if (value === undefined || value === null || value === '') {
+        return defaultValue;
+      }
+
+      const numericValue = Number(value);
+
+      if (!Number.isFinite(numericValue) || numericValue <= 0) {
+        inputErrors.push(`${fieldName} must be a positive number.`);
+        return defaultValue;
+      }
+
+      return numericValue;
+    }
+
+    const origin =
+      validateWaypoint('origin', req.body?.origin) || {
+        location: {
+          latLng: {
+            latitude: 33.7488,
+            longitude: -84.3877
+          }
+        }
+      };
+
+    const destination =
+      validateWaypoint('destination', req.body?.destination) || {
+        location: {
+          latLng: {
+            latitude: 33.6407,
+            longitude: -84.4277
+          }
+        }
+      };
+
+    const requestedTruck = req.body?.truck || {};
+    const axleCount = positiveNumberOrDefault(
+      requestedTruck.axleCount,
+      2,
+      'truck.axleCount'
+    );
+
+    if (!Number.isInteger(axleCount)) {
+      inputErrors.push('truck.axleCount must be a whole number.');
+    }
 
     const truck = {
-      heightMm: String(req.body?.truck?.heightMm || 3962),
-      widthMm: String(req.body?.truck?.widthMm || 2591),
-      lengthMm: String(req.body?.truck?.lengthMm || 7925),
-      weightKg: String(req.body?.truck?.weightKg || 11793),
-      axleCount: Number(req.body?.truck?.axleCount || 2)
+      heightMm: String(
+        positiveNumberOrDefault(requestedTruck.heightMm, 3962, 'truck.heightMm')
+      ),
+      widthMm: String(
+        positiveNumberOrDefault(requestedTruck.widthMm, 2591, 'truck.widthMm')
+      ),
+      lengthMm: String(
+        positiveNumberOrDefault(requestedTruck.lengthMm, 7925, 'truck.lengthMm')
+      ),
+      weightKg: String(
+        positiveNumberOrDefault(requestedTruck.weightKg, 11793, 'truck.weightKg')
+      ),
+      axleCount
     };
+
+    if (inputErrors.length > 0) {
+      return res.status(400).json({
+        error: 'Invalid BoxSafe route request.',
+        details: inputErrors
+      });
+    }
 
     const useTruckRouting = req.body?.useTruckRouting === true;
 
