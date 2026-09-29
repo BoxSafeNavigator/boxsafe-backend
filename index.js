@@ -1,4 +1,6 @@
 const functions = require('@google-cloud/functions-framework');
+const DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS = 75;
+
 const lowBridges = [
   {
     id: 'stone-mountain-james-b-rivers',
@@ -97,6 +99,31 @@ function distanceToSegmentMeters(point, start, end) {
 
   return Math.hypot(px - closestX, py - closestY);
 }
+function minimumDistanceToRouteMeters(point, routePoints) {
+  if (routePoints.length === 0) {
+    return Infinity;
+  }
+
+  if (routePoints.length === 1) {
+    return distanceMeters(point, routePoints[0]);
+  }
+
+  let minimumDistance = Infinity;
+
+  for (let index = 0; index < routePoints.length - 1; index += 1) {
+    minimumDistance = Math.min(
+      minimumDistance,
+      distanceToSegmentMeters(
+        point,
+        routePoints[index],
+        routePoints[index + 1]
+      )
+    );
+  }
+
+  return minimumDistance;
+}
+
 function getLowBridgeWarnings(truck, routesData) {
   const warnings = [];
   const encodedPolyline =
@@ -115,22 +142,24 @@ function getLowBridgeWarnings(truck, routesData) {
       longitude: bridge.longitude
     };
 
-    const nearRoute = routePoints.slice(0, -1).some(
-  (point, index) =>
-    distanceToSegmentMeters(
+    const distanceThresholdMeters =
+      bridge.routeMatchThresholdMeters ||
+      DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS;
+    const routeDistanceMeters = minimumDistanceToRouteMeters(
       bridgePoint,
-      point,
-      routePoints[index + 1]
-    ) <= 75
-);
+      routePoints
+    );
+    const nearRoute = routeDistanceMeters <= distanceThresholdMeters;
+
     if (nearRoute && truckHeightMm > bridge.clearanceMm) {
       warnings.push({
         bridgeId: bridge.id,
         bridgeName: bridge.name,
         truckHeightMm,
         bridgeClearanceMm: bridge.clearanceMm,
+        routeDistanceMeters: Math.round(routeDistanceMeters),
         message: `CRITICAL LOW BRIDGE - DO NOT PROCEED: truck height ${truckHeightMm} mm exceeds bridge clearance ${bridge.clearanceMm} mm by ${truckHeightMm - bridge.clearanceMm} mm. REROUTE REQUIRED.`,
-        distanceThresholdMeters: 75,
+        distanceThresholdMeters,
         unsafe: true
       });
     }
