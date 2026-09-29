@@ -1,6 +1,7 @@
 const functions = require('@google-cloud/functions-framework');
 const crypto = require('crypto');
 const { createSafetyEvent } = require('./safety-events');
+const { recordSafetyEvent } = require('./safety-event-store');
 const DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS = 75;
 const lowBridgeData = require('./low-bridges.json');
 const lowBridges = lowBridgeData.records || [];
@@ -163,6 +164,42 @@ function getLowBridgeWarnings(truck, routesData) {
 }
 functions.http('helloHttp', async (req, res) => {
   try {
+    if (req.path === '/safety-events') {
+      if (req.method !== 'POST') {
+        return res.status(405).json({
+          error: 'Method not allowed. Use POST for /safety-events.'
+        });
+      }
+
+      try {
+        const event = await recordSafetyEvent(req.body || {});
+
+        return res.status(201).json({
+          boxSafe: {
+            safetyEventStored: true,
+            safetyEvent: event
+          }
+        });
+      } catch (eventError) {
+        console.error('Safety event storage failed:', eventError);
+
+        const validationMessages = [
+          'required',
+          'Invalid safety event type',
+          'location'
+        ];
+        const isValidationError = validationMessages.some((message) =>
+          eventError.message?.includes(message)
+        );
+
+        return res.status(isValidationError ? 400 : 500).json({
+          error: isValidationError
+            ? 'Invalid BoxSafe safety event.'
+            : 'BoxSafe safety event could not be stored.',
+          details: eventError.message
+        });
+      }
+    }
     const apiKey = process.env.ROUTES_API_KEY;
 
     if (!apiKey) {
