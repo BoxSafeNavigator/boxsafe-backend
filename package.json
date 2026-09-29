@@ -3,6 +3,7 @@
     "@google-cloud/functions-framework": "^3.0.0"
   },
   "scripts": {
-    "import:bridges": "node scripts/import-bridge-records.js"
+    "import:bridges": "node scripts/import-bridge-records.js",
+    "normalize:fhwa-snbi": "node scripts/normalize-fhwa-snbi.js"
   }
 }
