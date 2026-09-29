@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "id": "stone-mountain-james-b-rivers",
+      "name": "CSX Bridge - James B. Rivers Memorial Drive",
+      "latitude": 33.81218,
+      "longitude": -84.17035,
+      "clearanceMm": 3658,
+      "routeMatchThresholdMeters": 75,
+      "sourceAuthority": null,
+      "sourceRecordId": null,
+      "sourceUrl": null,
+      "lastVerifiedDate": null,
+      "verificationStatus": "UNVERIFIED",
+      "confidence": "LOW",
+      "notes": "Recovered legacy BoxSafe record. Source verification is still required before production use."
+    }
+  ]
+}
