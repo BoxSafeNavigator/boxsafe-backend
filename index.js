@@ -1,15 +1,7 @@
 const functions = require('@google-cloud/functions-framework');
 const DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS = 75;
-
-const lowBridges = [
-  {
-    id: 'stone-mountain-james-b-rivers',
-    name: 'CSX Bridge - James B. Rivers Memorial Drive',
-    latitude: 33.81218,
-    longitude: -84.17035,
-    clearanceMm: 3658
-  }
-];
+const lowBridgeData = require('./low-bridges.json');
+const lowBridges = lowBridgeData.records || [];
 
 function decodePolyline(encoded) {
   const points = [];
