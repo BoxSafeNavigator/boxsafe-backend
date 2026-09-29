@@ -399,9 +399,11 @@ functions.http('helloHttp', async (req, res) => {
   }
 
   const lowBridgeWarnings = getLowBridgeWarnings(truck, result.data);
-  let previousEventHash = null;
-  const safetyEvents = lowBridgeWarnings.map((warning) => {
-    const event = createSafetyEvent({
+  const safetyEvents = [];
+  let storedSafetyEventCount = 0;
+
+  for (const warning of lowBridgeWarnings) {
+    const eventInput = {
       eventType: 'WARNING_ISSUED',
       tripId,
       driverSessionId,
@@ -417,15 +419,31 @@ functions.http('helloHttp', async (req, res) => {
       alternateRouteAvailable: safeRouteFound,
       warningDisplayed: null,
       driverAcknowledged: null,
-      classification: null,
       confidence: 'HIGH',
-      safetyRuleVersion: 'low-bridge-v1',
-      previousEventHash
-    });
+      safetyRuleVersion: 'low-bridge-v1'
+    };
 
-    previousEventHash = event.eventHash;
-    return event;
-  });
+    try {
+      const storedEvent = await recordSafetyEvent(eventInput);
+      safetyEvents.push(storedEvent);
+      storedSafetyEventCount += 1;
+    } catch (storageError) {
+      console.error('Low-bridge safety event storage failed:', storageError);
+      safetyEvents.push(
+        createSafetyEvent({
+          ...eventInput,
+          classification: null,
+          previousEventHash: null
+        })
+      );
+    }
+  }
+
+  const safetyEventPersistence = {
+    attempted: lowBridgeWarnings.length,
+    stored: storedSafetyEventCount,
+    failed: lowBridgeWarnings.length - storedSafetyEventCount
+  };
 
   return res.status(result.status).json({
     boxSafe: {
@@ -443,7 +461,8 @@ functions.http('helloHttp', async (req, res) => {
         ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
         : null,
       lowBridgeWarnings,
-      safetyEvents
+      safetyEvents,
+      safetyEventPersistence
     },
     googleRoutes: result.data
   });
