@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@google-cloud/functions-framework": "^3.0.0"
+  },
+  "scripts": {
+    "import:bridges": "node scripts/import-bridge-records.js"
   }
 }
