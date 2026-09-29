@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.0.0"
+    "@google-cloud/functions-framework": "^3.0.0",
+    "@google-cloud/firestore": "^7.11.0"
   },
   "scripts": {
     "import:bridges": "node scripts/import-bridge-records.js",
