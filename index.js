@@ -248,17 +248,37 @@ functions.http('helloHttp', async (req, res) => {
     }
 
   const candidateRoutes = result.data?.routes || [];
-  const safeRouteIndex = candidateRoutes.findIndex((route) => getLowBridgeWarnings(truck, { routes: [route] }).length === 0);
+  const safeRouteIndex = candidateRoutes.findIndex(
+    (route) => getLowBridgeWarnings(truck, { routes: [route] }).length === 0
+  );
+
+  const safeRouteFound = safeRouteIndex >= 0;
+  const noSafeRouteFound = candidateRoutes.length > 0 && !safeRouteFound;
+  const routeSafetyStatus =
+    candidateRoutes.length === 0
+      ? 'NO_ROUTE_RETURNED'
+      : noSafeRouteFound
+        ? 'NO_SAFE_ROUTE_FOUND'
+        : 'SAFE_ROUTE_SELECTED';
+
   if (safeRouteIndex > 0) {
-  const [safeRoute] = candidateRoutes.splice(safeRouteIndex, 1);  
-  candidateRoutes.unshift(safeRoute);
+    const [safeRoute] = candidateRoutes.splice(safeRouteIndex, 1);
+    candidateRoutes.unshift(safeRoute);
   }
+
   return res.status(result.status).json({
   boxSafe: {
     routingMode,
     truckRoutingRequested: useTruckRouting,
     truckRoutingFallback,
     truckProfile: truck,
+    routeSafetyStatus,
+    safeRouteFound,
+    noSafeRouteFound,
+    evaluatedRouteCount: candidateRoutes.length,
+    safetyMessage: noSafeRouteFound
+      ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
+      : null,
     lowBridgeWarnings: getLowBridgeWarnings(truck, result.data),
   },
   googleRoutes: result.data
