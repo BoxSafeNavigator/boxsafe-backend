@@ -1,4 +1,6 @@
 const functions = require('@google-cloud/functions-framework');
+const crypto = require('crypto');
+const { createSafetyEvent } = require('./safety-events');
 const DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS = 75;
 const lowBridgeData = require('./low-bridges.json');
 const lowBridges = lowBridgeData.records || [];
@@ -264,6 +266,9 @@ functions.http('helloHttp', async (req, res) => {
       });
     }
 
+    const tripId = req.body?.tripId || crypto.randomUUID();
+    const driverSessionId = req.body?.driverSessionId || null;
+
     const useTruckRouting = req.body?.useTruckRouting === true;
 
     async function callRoutes(body) {
@@ -356,23 +361,55 @@ functions.http('helloHttp', async (req, res) => {
     candidateRoutes.unshift(safeRoute);
   }
 
+  const lowBridgeWarnings = getLowBridgeWarnings(truck, result.data);
+  let previousEventHash = null;
+  const safetyEvents = lowBridgeWarnings.map((warning) => {
+    const event = createSafetyEvent({
+      eventType: 'WARNING_ISSUED',
+      tripId,
+      driverSessionId,
+      hazard: {
+        hazardType: 'LOW_BRIDGE',
+        hazardId: warning.bridgeId,
+        severity: 'CRITICAL',
+        source: 'BoxSafe low-bridge verification engine',
+        sourceTimestamp: new Date().toISOString()
+      },
+      vehicleProfile: truck,
+      routeId: null,
+      alternateRouteAvailable: safeRouteFound,
+      warningDisplayed: null,
+      driverAcknowledged: null,
+      classification: null,
+      confidence: 'HIGH',
+      safetyRuleVersion: 'low-bridge-v1',
+      previousEventHash
+    });
+
+    previousEventHash = event.eventHash;
+    return event;
+  });
+
   return res.status(result.status).json({
-  boxSafe: {
-    routingMode,
-    truckRoutingRequested: useTruckRouting,
-    truckRoutingFallback,
-    truckProfile: truck,
-    routeSafetyStatus,
-    safeRouteFound,
-    noSafeRouteFound,
-    evaluatedRouteCount: candidateRoutes.length,
-    safetyMessage: noSafeRouteFound
-      ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
-      : null,
-    lowBridgeWarnings: getLowBridgeWarnings(truck, result.data),
-  },
-  googleRoutes: result.data
-});
+    boxSafe: {
+      tripId,
+      driverSessionId,
+      routingMode,
+      truckRoutingRequested: useTruckRouting,
+      truckRoutingFallback,
+      truckProfile: truck,
+      routeSafetyStatus,
+      safeRouteFound,
+      noSafeRouteFound,
+      evaluatedRouteCount: candidateRoutes.length,
+      safetyMessage: noSafeRouteFound
+        ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
+        : null,
+      lowBridgeWarnings,
+      safetyEvents
+    },
+    googleRoutes: result.data
+  });
 
   } catch (error) {
     console.error(error);
