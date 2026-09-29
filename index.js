@@ -233,7 +233,8 @@ functions.http('helloHttp', async (req, res) => {
           origin,
           destination,
           travelMode: 'DRIVE',
-          routingPreference: 'TRAFFIC_AWARE'
+          routingPreference: 'TRAFFIC_AWARE',
+          computeAlternativeRoutes: true
         });
       }
     } else {
@@ -241,7 +242,8 @@ functions.http('helloHttp', async (req, res) => {
         origin,
         destination,
         travelMode: 'DRIVE',
-        routingPreference: 'TRAFFIC_AWARE'
+        routingPreference: 'TRAFFIC_AWARE',
+          computeAlternativeRoutes: true
       });
     }
 
