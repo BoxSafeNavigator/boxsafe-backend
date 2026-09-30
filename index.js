@@ -4,6 +4,7 @@ const { createSafetyEvent } = require('./safety-events');
 const { recordSafetyEvent } = require('./safety-event-store');
 const DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS = 75;
 const lowBridgeData = require('./low-bridges.json');
+const { safetyRoutingAgent } = require("./agents/safetyRoutingAgent");
 const lowBridges = lowBridgeData.records || [];
 
 function decodePolyline(encoded) {
@@ -399,6 +400,7 @@ functions.http('helloHttp', async (req, res) => {
   }
 
   const lowBridgeWarnings = getLowBridgeWarnings(truck, result.data);
+  const safetyRoutingDecision = safetyRoutingAgent({ truckProfile: truck, lowBridgeWarnings });
   const safetyEvents = [];
   let storedSafetyEventCount = 0;
 
@@ -460,6 +462,7 @@ functions.http('helloHttp', async (req, res) => {
       safetyMessage: noSafeRouteFound
         ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
         : null,
+      safetyRoutingDecision,
       lowBridgeWarnings,
       safetyEvents,
       safetyEventPersistence
