@@ -394,13 +394,13 @@ functions.http('helloHttp', async (req, res) => {
         ? 'NO_SAFE_ROUTE_FOUND'
         : 'SAFE_ROUTE_SELECTED';
 
+  const lowBridgeWarnings = getLowBridgeWarnings(truck, result.data);
+  const safetyRoutingDecision = safetyRoutingAgent({ truckProfile: truck, lowBridgeWarnings });
+
   if (safeRouteIndex > 0) {
     const [safeRoute] = candidateRoutes.splice(safeRouteIndex, 1);
     candidateRoutes.unshift(safeRoute);
   }
-
-  const lowBridgeWarnings = getLowBridgeWarnings(truck, result.data);
-  const safetyRoutingDecision = safetyRoutingAgent({ truckProfile: truck, lowBridgeWarnings });
   const safetyEvents = [];
   let storedSafetyEventCount = 0;
 
