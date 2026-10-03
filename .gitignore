@@ -1,1 +1,12 @@
 node_modules/
+.env
+.env.*
+*.pem
+*.key
+id_rsa
+id_rsa.*
+*service-account*.json
+gcloud.json
+google-cloud-credentials.json
+application_default_credentials.json
+adc.json
