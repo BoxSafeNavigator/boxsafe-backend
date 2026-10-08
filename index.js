@@ -6,44 +6,7 @@ const DEFAULT_LOW_BRIDGE_ROUTE_THRESHOLD_METERS = 75;
 const lowBridgeData = require('./low-bridges.json');
 const lowBridges = lowBridgeData.records || [];
 
-function decodePolyline(encoded) {
-  const points = [];
-  let index = 0;
-  let lat = 0;
-  let lng = 0;
-
-  while (index < encoded.length) {
-    let result = 0;
-    let shift = 0;
-    let byte;
-
-    do {
-      byte = encoded.charCodeAt(index++) - 63;
-      result |= (byte & 0x1f) << shift;
-      shift += 5;
-    } while (byte >= 0x20);
-
-    lat += (result & 1) ? ~(result >> 1) : (result >> 1);
-
-    result = 0;
-    shift = 0;
-
-    do {
-      byte = encoded.charCodeAt(index++) - 63;
-      result |= (byte & 0x1f) << shift;
-      shift += 5;
-    } while (byte >= 0x20);
-
-    lng += (result & 1) ? ~(result >> 1) : (result >> 1);
-
-    points.push({
-      latitude: lat / 1e5,
-      longitude: lng / 1e5
-    });
-  }
-
-  return points;
-}
+const { assessGeometry } = require('./route-geometry');
 
 function distanceMeters(a, b) {
   const R = 6371000;
@@ -119,16 +82,8 @@ function minimumDistanceToRouteMeters(point, routePoints) {
   return minimumDistance;
 }
 
-function getLowBridgeWarnings(truck, routesData) {
+function getLowBridgeWarnings(truck, routePoints) {
   const warnings = [];
-  const encodedPolyline =
-    routesData?.routes?.[0]?.polyline?.encodedPolyline;
-
-  if (!encodedPolyline) {
-    return warnings;
-  }
-
-  const routePoints = decodePolyline(encodedPolyline);
   const truckHeightMm = Number(truck.heightMm);
 
   for (const bridge of lowBridges) {
@@ -379,26 +334,35 @@ functions.http('helloHttp', async (req, res) => {
       });
     }
 
-  const candidateRoutes = result.data?.routes || [];
-  const safeRouteIndex = candidateRoutes.findIndex(
-    (route) => getLowBridgeWarnings(truck, { routes: [route] }).length === 0
+  const routeCollectionValid = Array.isArray(result.data?.routes);
+  const candidateRoutes = routeCollectionValid ? result.data.routes : [];
+  // Assess each candidate exactly once; unknown geometry is not a clear route.
+  const evaluations = candidateRoutes.map((route, originalIndex) => {
+    const geometry = assessGeometry(route?.polyline?.encodedPolyline);
+    const warnings = geometry.valid ? getLowBridgeWarnings(truck, geometry.points) : [];
+    return { originalIndex, geometry, warnings };
+  });
+  const safeRouteIndex = evaluations.findIndex(
+    ({ geometry, warnings }) => geometry.valid && warnings.length === 0
   );
-
+  const unknownRouteCount = evaluations.filter(({ geometry }) => !geometry.valid).length;
   const safeRouteFound = safeRouteIndex >= 0;
-  const noSafeRouteFound = candidateRoutes.length > 0 && !safeRouteFound;
-  const routeSafetyStatus =
-    candidateRoutes.length === 0
+  const routeSafetyUnknown = !safeRouteFound && (!routeCollectionValid || unknownRouteCount > 0);
+  const noSafeRouteFound = candidateRoutes.length > 0 && !safeRouteFound && !routeSafetyUnknown;
+  const routeSafetyStatus = routeSafetyUnknown
+    ? 'UNKNOWN_ROUTE_SAFETY'
+    : candidateRoutes.length === 0
       ? 'NO_ROUTE_RETURNED'
-      : noSafeRouteFound
-        ? 'NO_SAFE_ROUTE_FOUND'
-        : 'SAFE_ROUTE_SELECTED';
+      : noSafeRouteFound ? 'NO_SAFE_ROUTE_FOUND' : 'SAFE_ROUTE_SELECTED';
 
   if (safeRouteIndex > 0) {
     const [safeRoute] = candidateRoutes.splice(safeRouteIndex, 1);
     candidateRoutes.unshift(safeRoute);
+    const [evaluation] = evaluations.splice(safeRouteIndex, 1);
+    evaluations.unshift(evaluation);
   }
 
-  const lowBridgeWarnings = getLowBridgeWarnings(truck, result.data);
+  const lowBridgeWarnings = evaluations[0]?.warnings || [];
   const safetyEvents = [];
   let storedSafetyEventCount = 0;
 
@@ -457,7 +421,17 @@ functions.http('helloHttp', async (req, res) => {
       safeRouteFound,
       noSafeRouteFound,
       evaluatedRouteCount: candidateRoutes.length,
-      safetyMessage: noSafeRouteFound
+      routeCollectionValid,
+      unknownRouteCount,
+      routeGeometry: evaluations.map(({ originalIndex, geometry }) => ({
+        originalIndex,
+        status: geometry.valid ? 'VALID' : 'UNKNOWN',
+        reason: geometry.reason,
+        pointCount: geometry.points.length
+      })),
+      safetyMessage: routeSafetyUnknown
+        ? 'UNKNOWN ROUTE SAFETY: route geometry could not be verified. DO NOT PROCEED until geometry is verified and an assessable clear route is available.'
+        : noSafeRouteFound
         ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
         : null,
       lowBridgeWarnings,
