@@ -278,7 +278,18 @@ functions.http('helloHttp', async (req, res) => {
         }
       );
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        if (!useTruckRouting) throw error;
+        return {
+          ok: false,
+          status: response.ok ? 502 : response.status,
+          failureReason: 'INVALID_PROVIDER_JSON',
+          data: null
+        };
+      }
 
       return {
         ok: response.ok,
@@ -309,19 +320,44 @@ functions.http('helloHttp', async (req, res) => {
         }
       };
 
-      result = await callRoutes(truckRequest);
+      routingMode = 'TRUCK';
+      let failureReason;
+      try {
+        result = await callRoutes(truckRequest);
+        if (!result.ok) failureReason = result.failureReason || 'UPSTREAM_HTTP_ERROR';
+        else if (!Array.isArray(result.data?.routes)) {
+          failureReason = 'INVALID_PROVIDER_RESPONSE';
+          result.status = 502;
+        }
+      } catch {
+        // Never expose provider bodies, exception messages or credentials.
+        failureReason = 'PROVIDER_REQUEST_FAILED';
+      }
 
-      if (result.ok) {
-        routingMode = 'TRUCK';
-      } else {
-        truckRoutingFallback = true;
-
-        result = await callRoutes({
-          origin,
-          destination,
-          travelMode: 'DRIVE',
-          routingPreference: 'TRAFFIC_AWARE',
-          computeAlternativeRoutes: true
+      if (failureReason) {
+        return res.status(result?.status || 500).json({
+          error: 'Truck routing is unavailable.',
+          boxSafe: {
+            tripId,
+            driverSessionId,
+            routingMode,
+            truckRoutingRequested: true,
+            truckRoutingFallback: false,
+            truckProfile: truck,
+            truckRoutingStatus: 'TRUCK_ROUTING_UNAVAILABLE',
+            routeSafetyStatus: 'UNKNOWN_ROUTE_SAFETY',
+            safeRouteFound: false,
+            noSafeRouteFound: false,
+            evaluatedRouteCount: 0,
+            routeCollectionValid: false,
+            unknownRouteCount: 0,
+            routeGeometry: [],
+            lowBridgeWarnings: [],
+            safetyEvents: [],
+            safetyEventPersistence: { attempted: 0, stored: 0, failed: 0 },
+            upstreamError: { reason: failureReason, status: result?.status || null },
+            safetyMessage: 'TRUCK ROUTING UNAVAILABLE: DO NOT PROCEED until a truck-capable provider or independent truck-route verification is available.'
+          }
         });
       }
     } else {
