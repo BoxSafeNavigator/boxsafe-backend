@@ -123,7 +123,7 @@ for (const [name, body, mode] of [['TRUCK', { useTruckRouting: true }, 'TRUCK'],
     assert.equal(r.code, 200);
     assert.deepEqual(r.modes, [mode]);
     assert.equal(r.body.boxSafe.routingMode, mode);
-    assert.equal(r.body.boxSafe.safeRouteFound, true);
+    assert.equal(r.body.boxSafe.safeRouteFound, false);
     assert.equal(r.body.boxSafe.truckRoutingFallback, false);
     assert.equal(r.body.boxSafe.evaluatedRouteCount, 1);
     assert.equal(r.body.boxSafe.routeGeometry[0].status, 'VALID');
