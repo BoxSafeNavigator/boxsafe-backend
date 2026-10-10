@@ -378,26 +378,51 @@ functions.http('helloHttp', async (req, res) => {
     const warnings = geometry.valid ? getLowBridgeWarnings(truck, geometry.points) : [];
     return { originalIndex, geometry, warnings };
   });
-  const safeRouteIndex = evaluations.findIndex(
+  const locallyClearRouteIndex = evaluations.findIndex(
     ({ geometry, warnings }) => geometry.valid && warnings.length === 0
   );
   const unknownRouteCount = evaluations.filter(({ geometry }) => !geometry.valid).length;
-  const safeRouteFound = safeRouteIndex >= 0;
-  const routeSafetyUnknown = !safeRouteFound && (!routeCollectionValid || unknownRouteCount > 0);
-  const noSafeRouteFound = candidateRoutes.length > 0 && !safeRouteFound && !routeSafetyUnknown;
+  // Local geometry and bridge observations are diagnostics, not truck assurance.
+  const safeRouteFound = false;
+  const locallyClearRouteFound = locallyClearRouteIndex >= 0;
+  const routeSafetyUnknown = !routeCollectionValid || unknownRouteCount > 0;
+  const noSafeRouteFound = candidateRoutes.length > 0 && !locallyClearRouteFound && !routeSafetyUnknown;
   const routeSafetyStatus = routeSafetyUnknown
     ? 'UNKNOWN_ROUTE_SAFETY'
     : candidateRoutes.length === 0
       ? 'NO_ROUTE_RETURNED'
-      : noSafeRouteFound ? 'NO_SAFE_ROUTE_FOUND' : 'SAFE_ROUTE_SELECTED';
+      : 'UNKNOWN_ROUTE_SAFETY';
 
-  if (safeRouteIndex > 0) {
-    const [safeRoute] = candidateRoutes.splice(safeRouteIndex, 1);
+  if (locallyClearRouteIndex > 0) {
+    const [safeRoute] = candidateRoutes.splice(locallyClearRouteIndex, 1);
     candidateRoutes.unshift(safeRoute);
-    const [evaluation] = evaluations.splice(safeRouteIndex, 1);
+    const [evaluation] = evaluations.splice(locallyClearRouteIndex, 1);
     evaluations.unshift(evaluation);
   }
 
+  const routeVerification = evaluations.map(({ originalIndex, geometry, warnings }, index) => {
+    const candidate = candidateRoutes[index];
+    const advisory = candidate?.travelAdvisory;
+    const flag = advisory?.routeRestrictionsPartiallyIgnored;
+    const malformedAdvisory = advisory !== undefined &&
+      (advisory === null || typeof advisory !== 'object' || Array.isArray(advisory));
+    const malformedFlag = malformedAdvisory || (flag !== undefined && typeof flag !== 'boolean');
+    const reasons = [useTruckRouting
+      ? flag === true ? 'RESTRICTIONS_PARTIALLY_IGNORED'
+        : malformedFlag ? 'INVALID_RESTRICTION_FLAG' : 'UNVERIFIED_TRUCK_ROUTE'
+      : 'TRUCK_ROUTING_NOT_USED'];
+    if (!geometry.valid) reasons.push('UNKNOWN_ROUTE_GEOMETRY');
+    if (warnings.length) reasons.push('LOCAL_BRIDGE_CONFLICT');
+    return {
+      originalIndex,
+      verified: false,
+      reasons,
+      localBridgeAssessment: !geometry.valid ? 'NOT_ASSESSABLE'
+        : warnings.length ? 'KNOWN_CONFLICT' : 'NO_KNOWN_CONFLICT',
+      localBridgeWarnings: warnings,
+      clearanceCoverage: 'UNVERIFIED'
+    };
+  });
   const lowBridgeWarnings = evaluations[0]?.warnings || [];
   const safetyEvents = [];
   let storedSafetyEventCount = 0;
@@ -419,7 +444,7 @@ functions.http('helloHttp', async (req, res) => {
       alternateRouteAvailable: safeRouteFound,
       warningDisplayed: null,
       driverAcknowledged: null,
-      confidence: 'HIGH',
+      confidence: 'LOW',
       safetyRuleVersion: 'low-bridge-v1'
     };
 
@@ -454,6 +479,10 @@ functions.http('helloHttp', async (req, res) => {
       truckRoutingFallback,
       truckProfile: truck,
       routeSafetyStatus,
+      routeVerification,
+      truckRouteVerified: false,
+      localBridgeAssessmentOnly: true,
+      locallyClearRouteFound,
       safeRouteFound,
       noSafeRouteFound,
       evaluatedRouteCount: candidateRoutes.length,
@@ -465,11 +494,11 @@ functions.http('helloHttp', async (req, res) => {
         reason: geometry.reason,
         pointCount: geometry.points.length
       })),
-      safetyMessage: routeSafetyUnknown
-        ? 'UNKNOWN ROUTE SAFETY: route geometry could not be verified. DO NOT PROCEED until geometry is verified and an assessable clear route is available.'
+      safetyMessage: candidateRoutes.length === 0 && routeCollectionValid
+        ? 'NO ROUTE RETURNED: DO NOT PROCEED without an assessable, independently verified truck route.'
         : noSafeRouteFound
-        ? 'NO SAFE ROUTE FOUND: every returned route conflicts with a known low bridge for this truck profile. DO NOT PROCEED until a safe route is available.'
-        : null,
+          ? 'KNOWN LOCAL BRIDGE CONFLICTS: every assessable candidate conflicts with a recorded bridge. DO NOT PROCEED. Clearance records remain unverified.'
+          : 'UNKNOWN ROUTE SAFETY: DO NOT PROCEED for truck navigation until a truck-capable provider and reliable clearance coverage are independently verified.',
       lowBridgeWarnings,
       safetyEvents,
       safetyEventPersistence

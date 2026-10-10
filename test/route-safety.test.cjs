@@ -157,8 +157,8 @@ for (const candidates of [[{}, unsafe], [unsafe, {}]]) {
 for (const candidates of [[{}, unsafe, safe], [safe, {}, unsafe]]) {
   test(`clear alternative, safe first: ${candidates[0] === safe}`, async () => {
     const result = await invoke({ routes: candidates });
-    assert.equal(result.boxSafe.routeSafetyStatus, 'SAFE_ROUTE_SELECTED');
-    assert.equal(result.boxSafe.safeRouteFound, true);
+    assert.equal(result.boxSafe.routeSafetyStatus, 'UNKNOWN_ROUTE_SAFETY');
+    assert.equal(result.boxSafe.safeRouteFound, false);
     assert.equal(result.boxSafe.unknownRouteCount, 1);
     assert.equal(result.boxSafe.routeGeometry[0].status, 'VALID');
     assert.deepEqual(result.googleRoutes.routes[0], safe);
@@ -167,7 +167,7 @@ for (const candidates of [[{}, unsafe, safe], [safe, {}, unsafe]]) {
 }
 test('all unsafe persists warning and never selects safe', async () => {
   const result = await invoke({ routes: [unsafe, unsafe] });
-  assert.equal(result.boxSafe.routeSafetyStatus, 'NO_SAFE_ROUTE_FOUND');
+  assert.equal(result.boxSafe.routeSafetyStatus, 'UNKNOWN_ROUTE_SAFETY');
   assert.equal(result.boxSafe.safeRouteFound, false);
   assert.equal(result.boxSafe.noSafeRouteFound, true);
   assert.equal(result.boxSafe.unknownRouteCount, 0);
@@ -181,11 +181,11 @@ test('empty routes retains NO_ROUTE_RETURNED', async () => {
 });
 test('valid route response fields and behavior retained', async () => {
   const result = await invoke({ routes: [safe] });
-  assert.equal(result.boxSafe.routeSafetyStatus, 'SAFE_ROUTE_SELECTED');
+  assert.equal(result.boxSafe.routeSafetyStatus, 'UNKNOWN_ROUTE_SAFETY');
   assert.equal(result.boxSafe.routingMode, 'DRIVE');
-  assert.equal(result.boxSafe.safeRouteFound, true);
+  assert.equal(result.boxSafe.safeRouteFound, false);
   assert.equal(result.boxSafe.noSafeRouteFound, false);
-  assert.equal(result.boxSafe.safetyMessage, null);
+  assert.match(result.boxSafe.safetyMessage, /DO NOT PROCEED/);
   assert.equal(result.boxSafe.routeGeometry[0].pointCount, 2);
   assert.deepEqual(result.googleRoutes.routes, [safe]);
   assert.deepEqual(result.boxSafe.safetyEventPersistence, { attempted: 0, stored: 0, failed: 0 });
