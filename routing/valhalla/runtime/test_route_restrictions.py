@@ -8,12 +8,12 @@ class RestrictionAuditTests(unittest.TestCase):
  def test_five_dimension_conflicts(self):
   for kind,(field,unit) in FIELDS.items():
    with self.subTest(kind=kind):
-    p=self.packet();p['edges'][0]['restrictions']=[{'type':kind,'value':p['truck'][field]/2,'unit':unit,'truck':True,'conditional':False}]
+    p=self.packet();p['edges'][0]['hasRestrictions']=True;p['edges'][0]['restrictions']=[{'type':kind,'value':p['truck'][field]/2,'unit':unit,'truck':True,'conditional':False}]
     self.assertEqual(audit(p)['conflicts'][0]['type'],kind)
  def test_wrong_units_unknown(self):
-  p=self.packet();p['edges'][0]['restrictions']=[{'type':'max_height','value':3,'unit':'ft','truck':True,'conditional':False}];self.assertFalse(audit(p)['suppliedEvidenceComplete'])
+  p=self.packet();p['edges'][0]['hasRestrictions']=True;p['edges'][0]['restrictions']=[{'type':'max_height','value':3,'unit':'ft','truck':True,'conditional':False}];self.assertFalse(audit(p)['suppliedEvidenceComplete'])
  def test_conditional_unknown(self):
-  p=self.packet();p['edges'][0]['restrictions']=[{'type':'max_height','value':1,'unit':'m','truck':True,'conditional':True}];self.assertIn('CONDITION_UNKNOWN_OR_UNSUPPORTED',audit(p)['unknownReasons'])
+  p=self.packet();p['edges'][0]['hasRestrictions']=True;p['edges'][0]['restrictions']=[{'type':'max_height','value':1,'unit':'m','truck':True,'conditional':True}];self.assertIn('CONDITION_UNKNOWN_OR_UNSUPPORTED',audit(p)['unknownReasons'])
  def test_build_mismatch(self):
   p=self.packet();p['evidenceGraphBuildId']='other';self.assertFalse(audit(p)['suppliedEvidenceComplete'])
  def test_wrong_order(self):
@@ -26,4 +26,16 @@ class RestrictionAuditTests(unittest.TestCase):
  def test_missing_packet(self):self.assertFalse(audit(None)['suppliedEvidenceComplete'])
  def test_candidate_identity_unknown(self):
   p=self.packet();p['identitySource']='trace';self.assertFalse(audit(p)['suppliedEvidenceComplete'])
+ def test_unhashable_restriction_type(self):
+  p=self.packet();p['edges'][0].update(hasRestrictions=True,restrictions=[{'type':[],'truck':True,'conditional':False}])
+  self.assertIn('UNSUPPORTED_RESTRICTION',audit(p)['unknownReasons'])
+ def test_inconsistent_restriction_flag(self):
+  p=self.packet();p['edges'][0]['hasRestrictions']=True
+  self.assertIn('RESTRICTION_FLAG_INCONSISTENT',audit(p)['unknownReasons'])
+ def test_malformed_edge(self):
+  p=self.packet();p['edges']=[None]
+  self.assertFalse(audit(p)['suppliedEvidenceComplete'])
+ def test_missing_access(self):
+  p=self.packet();del p['edges'][0]['truckAccess']
+  self.assertIn('TRUCK_ACCESS_UNKNOWN',audit(p)['unknownReasons'])
 if __name__=='__main__':unittest.main()
