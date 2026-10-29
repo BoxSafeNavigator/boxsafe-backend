@@ -1,0 +1,12 @@
+{
+  "cmakeVersion": "3.31.6",
+  "ninjaVersion": "1.11.1.4",
+  "toolsInstalled": true,
+  "patchApplied": true,
+  "configurePassed": false,
+  "compilePerformed": false,
+  "binaryRoundTripTested": false,
+  "blocker": "CMake cannot find required Boost headers (>=1.71)",
+  "additionalMissingHeaderObserved": "/usr/include/google/protobuf/message.h",
+  "navigationReady": false
+}
