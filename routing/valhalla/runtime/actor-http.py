@@ -3,6 +3,7 @@
 import argparse, json, threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from valhalla import Actor
+from endpoint_guard import check_endpoints
 p=argparse.ArgumentParser();p.add_argument('--config',required=True);p.add_argument('--port',type=int,default=8002);a=p.parse_args()
 actor=Actor(json.load(open(a.config)));lock=threading.Lock()
 class Handler(BaseHTTPRequestHandler):
@@ -16,8 +17,11 @@ class Handler(BaseHTTPRequestHandler):
    payload=json.loads(self.rfile.read(size))
    if not isinstance(payload,dict) or payload.get('costing')!='truck':return self.reply(400,{'error':'TRUCK_REQUIRED'})
    # BoxSafe adapter owns profile validation; this service must stay private behind it.
-   with lock:result=actor.route(json.dumps(payload))
+   with lock:
+    assessment=check_endpoints(actor,payload)
+    result=actor.route(json.dumps(payload))
    if isinstance(result,str):result=json.loads(result)
+   result['boxsafe_endpoint_assessment']=assessment
    return self.reply(200,result)
   except Exception:return self.reply(400,{'error':'ENGINE_REQUEST_FAILED'})
  def log_message(self,*args):pass
