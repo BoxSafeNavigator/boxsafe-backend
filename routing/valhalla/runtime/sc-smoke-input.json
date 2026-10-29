@@ -1,0 +1,39 @@
+{
+  "locations": [
+    {
+      "lat": 34.9249,
+      "lon": -81.0251
+    },
+    {
+      "lat": 34.9515,
+      "lon": -81.0037
+    }
+  ],
+  "truck": {
+    "height": {
+      "value": 13,
+      "unit": "ft"
+    },
+    "width": {
+      "value": 102,
+      "unit": "in"
+    },
+    "length": {
+      "value": 26,
+      "unit": "ft"
+    },
+    "loadedWeight": {
+      "value": 26000,
+      "unit": "lb"
+    },
+    "maxAxleLoad": {
+      "value": 16000,
+      "unit": "lb"
+    },
+    "axleCount": 2,
+    "hazmat": false
+  },
+  "preferences": {
+    "preferFewerTolls": true
+  }
+}
