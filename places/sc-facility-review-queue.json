@@ -1,0 +1,331 @@
+{
+  "purpose": "Manual verification work queue; not a navigation dataset",
+  "rows": [
+    {
+      "id": "aiken-i20-eb",
+      "name": "Aiken Scales",
+      "road": "I-20 eastbound",
+      "mileMarker": 35,
+      "status": "pending",
+      "priority": "normal",
+      "publishedPoint": {
+        "lat": 33.779432,
+        "lon": -81.48944
+      },
+      "crosscheck": {
+        "id": "aiken-i20-eb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "gisFeatureId": 132,
+        "gisRoadLabel": "I-20E MM 35",
+        "gisCandidatePoint": {
+          "lat": 33.7789972250703,
+          "lon": -81.4898863281283
+        },
+        "pointSeparationMeters": 63.6,
+        "interpretation": "Facility points only; distance does not validate an entrance."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "lexington-i20-wb",
+      "name": "Lexington Scales",
+      "road": "I-20 westbound",
+      "mileMarker": 54,
+      "status": "pending",
+      "priority": "normal",
+      "publishedPoint": {
+        "lat": 33.939167,
+        "lon": -81.26889
+      },
+      "crosscheck": {
+        "id": "lexington-i20-wb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "gisFeatureId": 5,
+        "gisRoadLabel": "I-20W MM 53",
+        "gisCandidatePoint": {
+          "lat": 33.9391399594694,
+          "lon": -81.2688460210979
+        },
+        "pointSeparationMeters": 5,
+        "interpretation": "Facility points only; distance does not validate an entrance."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "newberry-i26-eb",
+      "name": "Newberry Scales",
+      "road": "I-26 eastbound",
+      "mileMarker": 81,
+      "status": "pending",
+      "priority": "normal",
+      "publishedPoint": {
+        "lat": 34.245633,
+        "lon": -81.47698
+      },
+      "crosscheck": {
+        "id": "newberry-i26-eb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "gisFeatureId": 86,
+        "gisRoadLabel": "I-26E MM 81",
+        "gisCandidatePoint": {
+          "lat": 34.2454103016642,
+          "lon": -81.4764311613203
+        },
+        "pointSeparationMeters": 56.2,
+        "interpretation": "Facility points only; distance does not validate an entrance."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "richland-i26-wb",
+      "name": "Richland Scales",
+      "road": "I-26 westbound",
+      "mileMarker": 94,
+      "status": "pending",
+      "priority": "high",
+      "publishedPoint": {
+        "lat": 34.16392,
+        "lon": -81.28384
+      },
+      "crosscheck": {
+        "id": "richland-i26-wb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "interpretation": "No corresponding feature found in this query. Absence is not proof facility is absent."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "dorchester-i26-wb",
+      "name": "Dorchester Scales",
+      "road": "I-26 westbound",
+      "mileMarker": 174,
+      "status": "pending",
+      "priority": "normal",
+      "publishedPoint": {
+        "lat": 33.260465,
+        "lon": -80.47596
+      },
+      "crosscheck": {
+        "id": "dorchester-i26-wb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "gisFeatureId": 287,
+        "gisRoadLabel": "I-26W MM 174",
+        "gisCandidatePoint": {
+          "lat": 33.2603416454674,
+          "lon": -80.4756668343621
+        },
+        "pointSeparationMeters": 30.5,
+        "interpretation": "Facility points only; distance does not validate an entrance."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "townville-i85-nb",
+      "name": "Townville Scales",
+      "road": "I-85 northbound",
+      "mileMarker": 9,
+      "status": "pending",
+      "priority": "normal",
+      "publishedPoint": {
+        "lat": 34.516635,
+        "lon": -82.87364
+      },
+      "crosscheck": {
+        "id": "townville-i85-nb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "gisFeatureId": 218,
+        "gisRoadLabel": "I-85N MM 9",
+        "gisCandidatePoint": {
+          "lat": 34.5167027374121,
+          "lon": -82.8733159205478
+        },
+        "pointSeparationMeters": 30.6,
+        "interpretation": "Facility points only; distance does not validate an entrance."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "dorchester-i95-nb",
+      "name": "Dorchester Scales",
+      "road": "I-95 northbound",
+      "mileMarker": 74,
+      "status": "pending",
+      "priority": "normal",
+      "publishedPoint": {
+        "lat": 33.160222,
+        "lon": -80.61999
+      },
+      "crosscheck": {
+        "id": "dorchester-i95-nb",
+        "reviewStatus": "research_only",
+        "entranceVerified": false,
+        "parkingConditionsVerified": false,
+        "gisFeatureId": 204,
+        "gisRoadLabel": "I-95N MM 74",
+        "gisCandidatePoint": {
+          "lat": 33.1594377516684,
+          "lon": -80.6220503214199
+        },
+        "pointSeparationMeters": 210.7,
+        "interpretation": "Facility points only; distance does not validate an entrance."
+      },
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "routable": false,
+      "reason": "Facility point does not establish entrance, approach clearance or current parking permission."
+    },
+    {
+      "id": "held-i77-0",
+      "name": "York Scales",
+      "road": "I-77 southbound",
+      "mileMarker": 84,
+      "status": "held",
+      "priority": "high",
+      "routable": false,
+      "reason": "Official page gives identical coordinates for two opposite-direction I-77 facilities with different mile markers. Do not choose a coordinate or navigation entrance without independent evidence.",
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "id": "held-i77-1",
+      "name": "Rock Hill Scales",
+      "road": "I-77 northbound",
+      "mileMarker": 89,
+      "status": "held",
+      "priority": "high",
+      "routable": false,
+      "reason": "Official page gives identical coordinates for two opposite-direction I-77 facilities with different mile markers. Do not choose a coordinate or navigation entrance without independent evidence.",
+      "checks": {
+        "entrancePoint": null,
+        "entryDirection": null,
+        "exitDirection": null,
+        "physicalRestrictions": null,
+        "parkingPermission": null,
+        "parkingConditions": null,
+        "stationOperatingStatus": null,
+        "restroomAccess": null,
+        "evidenceReferences": [],
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    }
+  ]
+}

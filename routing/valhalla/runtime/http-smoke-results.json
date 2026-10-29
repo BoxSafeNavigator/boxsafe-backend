@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "name": "real truck HTTP route",
+      "passed": true,
+      "status": 200,
+      "durationSeconds": 0.149,
+      "distanceMeters": 5978,
+      "maneuvers": 7,
+      "safetyStatus": "UNKNOWN_ROUTE_SAFETY"
+    },
+    {
+      "name": "invalid truck profile",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "outside graph coverage",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "engine stopped",
+      "passed": true,
+      "status": 503
+    }
+  ],
+  "realEngine": "Valhalla 3.9.0",
+  "graph": "sc-pyvalhalla390-20261029",
+  "navigationReady": false,
+  "passed": true
+}

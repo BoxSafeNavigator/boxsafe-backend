@@ -1,0 +1,117 @@
+{
+  "reviewedAt": "2026-10-29T12:34:45.981338+00:00",
+  "gisSource": "https://services1.arcgis.com/VaY7cY9pvUYUP1Lf/arcgis/rest/services/TruckParkingALLforQuery/FeatureServer/0",
+  "sourceOwnership": "Not independently established; retain as corroboration lead only.",
+  "query": "Name LIKE '%Weigh%' OR Name LIKE '%Scale%'",
+  "snapshotSHA256": "54039c76e2ee19c373632d7895972b1a5351f93657fad50cd06f03f01662a3e8",
+  "candidates": [
+    {
+      "id": "aiken-i20-eb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "gisFeatureId": 132,
+      "gisRoadLabel": "I-20E MM 35",
+      "gisCandidatePoint": {
+        "lat": 33.7789972250703,
+        "lon": -81.4898863281283
+      },
+      "pointSeparationMeters": 63.6,
+      "interpretation": "Facility points only; distance does not validate an entrance."
+    },
+    {
+      "id": "lexington-i20-wb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "gisFeatureId": 5,
+      "gisRoadLabel": "I-20W MM 53",
+      "gisCandidatePoint": {
+        "lat": 33.9391399594694,
+        "lon": -81.2688460210979
+      },
+      "pointSeparationMeters": 5.0,
+      "interpretation": "Facility points only; distance does not validate an entrance."
+    },
+    {
+      "id": "newberry-i26-eb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "gisFeatureId": 86,
+      "gisRoadLabel": "I-26E MM 81",
+      "gisCandidatePoint": {
+        "lat": 34.2454103016642,
+        "lon": -81.4764311613203
+      },
+      "pointSeparationMeters": 56.2,
+      "interpretation": "Facility points only; distance does not validate an entrance."
+    },
+    {
+      "id": "richland-i26-wb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "interpretation": "No corresponding feature found in this query. Absence is not proof facility is absent."
+    },
+    {
+      "id": "dorchester-i26-wb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "gisFeatureId": 287,
+      "gisRoadLabel": "I-26W MM 174",
+      "gisCandidatePoint": {
+        "lat": 33.2603416454674,
+        "lon": -80.4756668343621
+      },
+      "pointSeparationMeters": 30.5,
+      "interpretation": "Facility points only; distance does not validate an entrance."
+    },
+    {
+      "id": "townville-i85-nb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "gisFeatureId": 218,
+      "gisRoadLabel": "I-85N MM 9",
+      "gisCandidatePoint": {
+        "lat": 34.5167027374121,
+        "lon": -82.8733159205478
+      },
+      "pointSeparationMeters": 30.6,
+      "interpretation": "Facility points only; distance does not validate an entrance."
+    },
+    {
+      "id": "dorchester-i95-nb",
+      "reviewStatus": "research_only",
+      "entranceVerified": false,
+      "parkingConditionsVerified": false,
+      "gisFeatureId": 204,
+      "gisRoadLabel": "I-95N MM 74",
+      "gisCandidatePoint": {
+        "lat": 33.1594377516684,
+        "lon": -80.6220503214199
+      },
+      "pointSeparationMeters": 210.7,
+      "interpretation": "Facility points only; distance does not validate an entrance."
+    }
+  ],
+  "i77": {
+    "status": "unresolved",
+    "gisSouthboundCandidate": {
+      "lat": 35.0155753946397,
+      "lon": -80.9699540707951,
+      "featureId": 98,
+      "roadLabel": "I-77S MM 85"
+    },
+    "conflict": "SCDPS labels southbound MM84; GIS labels MM85. Entrance and northbound correction not verified."
+  },
+  "gisItemMetadata": {
+    "itemId": "40d28cb7d9f84e018cd5c11bc8764e1c",
+    "owner": "gallowayra_SCDOT",
+    "title": "TruckParkingALLforQuery_Jan2017",
+    "licenseInfo": null,
+    "caution": "Owner label suggests SCDOT association; title references January 2017. Neither establishes current facility conditions or reuse permission."
+  }
+}

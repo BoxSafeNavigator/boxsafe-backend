@@ -1,0 +1,263 @@
+{
+  "syntheticOnly": true,
+  "realEngine": "Valhalla 3.9.0",
+  "navigationReady": false,
+  "defaultReachabilityRetained": true,
+  "cases": [
+    {
+      "name": "height origin smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "height origin over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "height destination smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "height destination over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "height interior direct control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": false
+    },
+    {
+      "name": "height interior detour",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": true
+    },
+    {
+      "name": "weight origin smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "weight origin over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "weight destination smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "weight destination over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "weight interior direct control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": false
+    },
+    {
+      "name": "weight interior detour",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": true
+    },
+    {
+      "name": "width origin smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "width origin over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "width destination smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "width destination over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "width interior direct control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": false
+    },
+    {
+      "name": "width interior detour",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": true
+    },
+    {
+      "name": "length origin smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "length origin over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "length destination smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "length destination over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "length interior direct control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": false
+    },
+    {
+      "name": "length interior detour",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": true
+    },
+    {
+      "name": "axle load origin smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "axle load origin over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "axle load destination smaller control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "axle load destination over limit",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "axle load interior direct control",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": false
+    },
+    {
+      "name": "axle load interior detour",
+      "status": 200,
+      "expectedStatus": 200,
+      "passed": true,
+      "routeReturned": true,
+      "detourObserved": true
+    },
+    {
+      "name": "truck access denied at origin",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "truck access denied at destination",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "invalid profile",
+      "status": 400,
+      "expectedStatus": 400,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "outside coverage",
+      "status": 503,
+      "expectedStatus": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "engine stopped",
+      "status": 503,
+      "passed": true,
+      "routeReturned": false
+    }
+  ],
+  "passed": true
+}

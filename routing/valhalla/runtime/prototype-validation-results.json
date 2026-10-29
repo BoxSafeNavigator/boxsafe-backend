@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "syntheticOnly": true,
+  "navigationReady": false,
+  "deploymentReady": false,
+  "allChecksPassed": true,
+  "pythonVersion": "3.12.14",
+  "checks": [
+    {
+      "name": "node-tests",
+      "passed": true,
+      "exitCode": 0,
+      "log": "node-tests.log"
+    },
+    {
+      "name": "python-guard-tests",
+      "passed": true,
+      "exitCode": 0,
+      "log": "python-guard-tests.log"
+    },
+    {
+      "name": "real-engine-http",
+      "passed": true,
+      "exitCode": 0,
+      "log": "real-engine-http.log"
+    }
+  ],
+  "limitations": [
+    "Synthetic restriction coverage only",
+    "No entrance or clearance verification",
+    "No production hosting or security validation",
+    "No browser validation"
+  ],
+  "dependencies": {
+    "pyvalhalla": "3.9.0",
+    "osmium": "4.3.2"
+  },
+  "nodeVersion": "v24.22.1",
+  "sourceSha256": {
+    "routing/valhalla/adapter.cjs": "6c3355c5fcc5aa68dff55d4923b10529bbf7797cb41db0fb9a73d768761c3211",
+    "routing/valhalla/server.cjs": "ec74c545fbe6dc1f83eed2f4fd0bb8432d786adf2df1ef9524e85b3dda024274",
+    "routing/valhalla/runtime/endpoint_guard.py": "ad71bd3688efba9b05fff72d245d641295ab037b9e6d0eb0e9861dbc8ef51592",
+    "routing/valhalla/runtime/actor-http.py": "1047c3743a767c3f5029101fdb3c41b6b4fea5c38e34852310ef9f18b57faba2",
+    "routing/valhalla/runtime/guarded-http-smoke.py": "3956f23bfb964799b3f2d409ce14926504fd9847551d7433ecee0062785ff6bb",
+    "routing/valhalla/runtime/validate-prototype.py": "9609089a65d089830a9af2c956e23bf0976b117f116f3e4329980e354a206484"
+  },
+  "realEngineCaseCount": 35
+}

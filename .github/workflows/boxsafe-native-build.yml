@@ -1,0 +1,53 @@
+name: BoxSafe native binary build
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: BoxSafeNavigator/boxsafe-backend
+          ref: 90ac77c36b77f938dc06c7862fdf96d9caaacc21
+          persist-credentials: false
+      - name: Record tested source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD | tee tested-source.txt
+          test "$(git rev-parse HEAD)" = 90ac77c36b77f938dc06c7862fdf96d9caaacc21
+      - name: Build patched wheel
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash routing/valhalla/runtime/native/build-patched-wheel.sh "$RUNNER_TEMP/native-build" 2>&1 | tee native-build.log
+      - name: Create synthetic fixture with released runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3.12 -m venv "$RUNNER_TEMP/fixture-runtime"
+          "$RUNNER_TEMP/fixture-runtime/bin/python" -m pip install pyvalhalla==3.9.0 osmium==4.3.2
+          "$RUNNER_TEMP/fixture-runtime/bin/python" routing/valhalla/runtime/guarded-http-smoke.py --work-dir "$RUNNER_TEMP/fixture" > fixture-tests.log 2>&1
+      - name: Install and verify patched wheel
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/native-build/venv/bin/python" -m pip install "$RUNNER_TEMP"/native-build/wheels/*.whl grpcio-tools==1.71.0 protobuf==5.29.6
+          bash routing/valhalla/runtime/native/verify-build.sh "$RUNNER_TEMP/native-build/venv/bin/python" "$RUNNER_TEMP/native-build/source" "$RUNNER_TEMP/fixture/config.json" "$RUNNER_TEMP/binary-verification"
+      - name: Preserve build and verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boxsafe-native-build-evidence
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            tested-source.txt
+            native-build.log
+            fixture-tests.log
+            ${{ runner.temp }}/binary-verification/
+            ${{ runner.temp }}/fixture/results.json
+            ${{ runner.temp }}/native-build/wheels/

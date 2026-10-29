@@ -1,0 +1,198 @@
+[
+  {
+    "id": "aiken-i20-eb",
+    "name": "Aiken Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 33.779432,
+      "lon": -81.48944
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-20 eastbound",
+    "mileMarker": 35,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  },
+  {
+    "id": "lexington-i20-wb",
+    "name": "Lexington Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 33.939167,
+      "lon": -81.26889
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-20 westbound",
+    "mileMarker": 54,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  },
+  {
+    "id": "newberry-i26-eb",
+    "name": "Newberry Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 34.245633,
+      "lon": -81.47698
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-26 eastbound",
+    "mileMarker": 81,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  },
+  {
+    "id": "richland-i26-wb",
+    "name": "Richland Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 34.16392,
+      "lon": -81.28384
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-26 westbound",
+    "mileMarker": 94,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  },
+  {
+    "id": "dorchester-i26-wb",
+    "name": "Dorchester Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 33.260465,
+      "lon": -80.47596
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-26 westbound",
+    "mileMarker": 174,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  },
+  {
+    "id": "townville-i85-nb",
+    "name": "Townville Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 34.516635,
+      "lon": -82.87364
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-85 northbound",
+    "mileMarker": 9,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  },
+  {
+    "id": "dorchester-i95-nb",
+    "name": "Dorchester Scales",
+    "category": "weigh_station",
+    "location": {
+      "lat": 33.160222,
+      "lon": -80.61999
+    },
+    "sources": [
+      {
+        "url": "https://www.scdps.sc.gov/stp/truck-parking",
+        "publisher": "South Carolina Department of Public Safety",
+        "checkedAt": "2026-10-29T12:28:24.324Z"
+      }
+    ],
+    "truckAccess": {
+      "status": "unknown"
+    },
+    "truckParking": {
+      "status": "unknown"
+    },
+    "reviewStatus": "research_only",
+    "road": "I-95 northbound",
+    "mileMarker": 74,
+    "parkingCondition": "Source describes parking permission while station is closed; current operating status and permission unverified.",
+    "restrooms": "May be unavailable while closed.",
+    "coordinateReview": "Not independently checked against ramp entrance or graph."
+  }
+]

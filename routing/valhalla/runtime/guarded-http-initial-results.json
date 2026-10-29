@@ -1,0 +1,64 @@
+{
+  "syntheticOnly": true,
+  "realEngine": "Valhalla 3.9.0",
+  "navigationReady": false,
+  "defaultReachabilityRetained": true,
+  "cases": [
+    {
+      "name": "height origin smaller control",
+      "status": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "height origin over limit",
+      "status": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "height destination smaller control",
+      "status": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "height destination over limit",
+      "status": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "weight origin smaller control",
+      "status": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "weight origin over limit",
+      "status": 503,
+      "passed": true,
+      "routeReturned": false
+    },
+    {
+      "name": "weight destination smaller control",
+      "status": 200,
+      "passed": true,
+      "routeReturned": true
+    },
+    {
+      "name": "weight destination over limit",
+      "status": 503,
+      "passed": true,
+      "routeReturned": false
+    }
+  ],
+  "passed": false,
+  "failure": {
+    "case": "truck access denied at origin",
+    "expectedStatus": 503,
+    "actualStatus": 200,
+    "observedEndpointShiftMeters": 460.3,
+    "description": "Truck correlation skipped hgv=no edge and selected a distant permitted road. No navigation approval was returned."
+  }
+}

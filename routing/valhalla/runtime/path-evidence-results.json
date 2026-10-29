@@ -1,0 +1,82 @@
+{
+  "syntheticOnly": true,
+  "navigationReady": false,
+  "fullPathClearanceVerified": false,
+  "cases": [
+    {
+      "heightMeters": 2,
+      "trace": {
+        "units": "kilometers",
+        "edges": [
+          {
+            "truck_route": false,
+            "way_id": 102,
+            "id": 39258707952,
+            "length": 0.461,
+            "names": [
+              "Fixture road"
+            ]
+          },
+          {
+            "truck_route": false,
+            "way_id": 100,
+            "id": 39359371248,
+            "length": 0.923,
+            "names": [
+              "Fixture road"
+            ]
+          },
+          {
+            "truck_route": false,
+            "way_id": 103,
+            "id": 39527143408,
+            "length": 0.461,
+            "names": [
+              "Fixture road"
+            ]
+          }
+        ],
+        "alternate_paths": []
+      },
+      "expectedWaySequenceObserved": true
+    },
+    {
+      "heightMeters": 4,
+      "trace": {
+        "units": "kilometers",
+        "edges": [
+          {
+            "truck_route": false,
+            "way_id": 102,
+            "id": 39258707952,
+            "length": 0.461,
+            "names": [
+              "Fixture road"
+            ]
+          },
+          {
+            "truck_route": false,
+            "way_id": 101,
+            "id": 39392925680,
+            "length": 3.149,
+            "names": [
+              "Fixture road"
+            ]
+          },
+          {
+            "truck_route": false,
+            "way_id": 103,
+            "id": 39527143408,
+            "length": 0.461,
+            "names": [
+              "Fixture road"
+            ]
+          }
+        ],
+        "alternate_paths": []
+      },
+      "expectedWaySequenceObserved": true
+    }
+  ],
+  "limitation": "Trace map matching identifies candidate edges; it is not proof of original route-edge identity or complete dimensional restriction evidence."
+}

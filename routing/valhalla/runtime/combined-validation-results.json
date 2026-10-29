@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "syntheticOnly": true,
+  "navigationReady": false,
+  "deploymentReady": false,
+  "allChecksPassed": true,
+  "pythonVersion": "3.12.14",
+  "checks": [
+    {
+      "name": "node-tests",
+      "passed": true,
+      "exitCode": 0,
+      "log": "node-tests.log"
+    },
+    {
+      "name": "python-runtime-tests",
+      "passed": true,
+      "exitCode": 0,
+      "log": "python-runtime-tests.log"
+    },
+    {
+      "name": "real-engine-http",
+      "passed": true,
+      "exitCode": 0,
+      "log": "real-engine-http.log"
+    }
+  ],
+  "limitations": [
+    "Synthetic restriction coverage only",
+    "No entrance or clearance verification",
+    "No production hosting or security validation",
+    "No browser validation"
+  ],
+  "dependencies": {
+    "pyvalhalla": "3.9.0",
+    "osmium": "4.3.2"
+  },
+  "nodeVersion": "v24.22.1",
+  "sourceSha256": {
+    "routing/valhalla/adapter.cjs": "6c3355c5fcc5aa68dff55d4923b10529bbf7797cb41db0fb9a73d768761c3211",
+    "routing/valhalla/server.cjs": "ec74c545fbe6dc1f83eed2f4fd0bb8432d786adf2df1ef9524e85b3dda024274",
+    "routing/valhalla/runtime/endpoint_guard.py": "ad71bd3688efba9b05fff72d245d641295ab037b9e6d0eb0e9861dbc8ef51592",
+    "routing/valhalla/runtime/actor-http.py": "1047c3743a767c3f5029101fdb3c41b6b4fea5c38e34852310ef9f18b57faba2",
+    "routing/valhalla/runtime/guarded-http-smoke.py": "3956f23bfb964799b3f2d409ce14926504fd9847551d7433ecee0062785ff6bb",
+    "routing/valhalla/runtime/validate-prototype.py": "871bfc98d22414d331fd72b76b9a5e6e8edb0dd1b88e652f58c0058aae772ea7",
+    "routing/valhalla/runtime/test_audit_cli.py": "d34ddccfbc8bf1ff3a1479af4e5106111b4d346cf000679b68aa486b8caa0ecd",
+    "routing/valhalla/runtime/test_endpoint_guard.py": "b6272ad2eeb82d898ba3b1b3e5f74644286d5a5fad313b24a6034845992e46ce",
+    "routing/valhalla/runtime/test_path_evidence.py": "76db6425e968a6a6aec6478ce60406033723dfa8c56ccb8384c3aa28c17dc5a3",
+    "routing/valhalla/runtime/test_route_restrictions.py": "f86b065eac4048e9f21dc162011241597990860ccd99f98cc78f3dbe4cb289f6",
+    "routing/valhalla/runtime/route_restrictions.py": "8a512b22451bcf69e63593d6721b238a0a1b4755862cf3b416828d0a2f291694",
+    "routing/valhalla/runtime/audit-route-evidence.py": "db93816b9ed61842e44afdedbfd3a4e968370f7a5fc23594b2a388deab2a0383",
+    "routing/valhalla/runtime/path_evidence.py": "167213f90d1f90c0ebaa614b186a6d5dbe5a66ec12e3a5a0d04679df7dd92142",
+    "routing/valhalla/runtime/evidence-examples/height-conflict.json": "34a7606ebf2f47f3aa404e91367efb48e477e11dfa58dd21fb2d7319a58f2b4d",
+    "routing/valhalla/runtime/evidence-examples/missing-evidence.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "routing/valhalla/runtime/evidence-examples/no-recorded-conflict.json": "744982d51ae7d22394829f6338aa719be813959ddb1015099868bc26cccee4fc"
+  },
+  "realEngineCaseCount": 35
+}

@@ -1,0 +1,11 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {assessReview}=require('../places/review-evidence.cjs');
+const now=Date.parse('2026-10-29T12:00:00Z');
+const evidence=()=>[{url:'https://example.org/fixture',publisher:'Fictional test source',checkedAt:'2026-10-28T12:00:00Z'}];
+const record=()=>({facilityId:'fixture',reviewer:'Test reviewer',reviewedAt:'2026-10-28T12:00:00Z',entrance:{summary:'Fixture',point:{lat:34,lon:-81},direction:'northbound',evidence:evidence()},parking:{summary:'Fixture',conditions:'Only under fixture conditions',evidence:evidence()},restrictions:{summary:'Fixture',evidence:evidence()}});
+test('complete packet cannot grant navigation approval',()=>{const r=assessReview({...record(),routable:true},now);assert.equal(r.complete,true);assert.equal(r.routable,false)});
+test('missing evidence is incomplete',()=>{const p=record();p.parking.evidence=[];assert.equal(assessReview(p,now).complete,false)});
+test('bad entrance and unspecified conditions are incomplete',()=>{const p=record();p.entrance.point.lat=91;p.parking.conditions='';const r=assessReview(p,now);assert.ok(r.missing.includes('entrance.point'));assert.ok(r.missing.includes('parking.conditions'))});
+test('future and unsafe source rejected',()=>{const p=record();p.restrictions.evidence[0].url='javascript:alert(1)';p.reviewedAt='2027-01-01T00:00:00Z';assert.equal(assessReview(p,now).complete,false)});
+test('empty or invalid packet remains incomplete',()=>{for(const p of [null,{},[]])assert.equal(assessReview(p,now).complete,false)});

@@ -1,0 +1,29 @@
+{
+  "status": "held_for_review",
+  "reason": "Official page gives identical coordinates for two opposite-direction I-77 facilities with different mile markers. Do not choose a coordinate or navigation entrance without independent evidence.",
+  "records": [
+    {
+      "name": "York Scales",
+      "road": "I-77 southbound",
+      "mileMarker": 84,
+      "sourceCoordinates": [
+        35.079719,
+        -80.94154
+      ]
+    },
+    {
+      "name": "Rock Hill Scales",
+      "road": "I-77 northbound",
+      "mileMarker": 89,
+      "sourceCoordinates": [
+        35.079719,
+        -80.94154
+      ]
+    }
+  ],
+  "source": {
+    "url": "https://www.scdps.sc.gov/stp/truck-parking",
+    "publisher": "South Carolina Department of Public Safety",
+    "checkedAt": "2026-10-29T12:28:24.324Z"
+  }
+}
