@@ -10,4 +10,5 @@ mkdir -p -- "$output_dir/generated"
 output_dir="$(cd -- "$output_dir" && pwd)"
 "$python_bin" -m grpc_tools.protoc -I "$source_dir/proto/descriptors" --python_out="$output_dir/generated" "$source_dir"/proto/descriptors/*.proto
 PYTHONPATH="$output_dir/generated" "$python_bin" "$script_dir/test-trip-schema.py" > "$output_dir/schema-test.log"
+PYTHONPATH="$output_dir/generated" "$python_bin" "$script_dir/test-original-trip.py" > "$output_dir/structure-tests.log" 2>&1
 PYTHONPATH="$output_dir/generated" "$python_bin" "$script_dir/verify-original-trip.py" --config "$config_path" --output "$output_dir/original-trip.json" > "$output_dir/native-test.log" 2>&1
