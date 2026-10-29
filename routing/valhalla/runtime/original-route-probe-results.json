@@ -1,0 +1,8 @@
+{
+  "syntheticOnly": true,
+  "jsonControlPassed": true,
+  "binaryTripAvailable": false,
+  "originalRouteEdgeIdentityVerified": false,
+  "fullPathClearanceVerified": false,
+  "blocker": "Python string-returning route binding cannot decode this binary trip response as UTF-8"
+}
