@@ -1,4 +1,5 @@
 'use strict';
+const { plot } = require('./plot.cjs');
 class RoutingError extends Error {
   constructor(code, status = 502) { super(code); this.code = code; this.status = status; }
 }
@@ -50,14 +51,14 @@ function normalize(data, provenance) {
       !Array.isArray(data.trip.legs) || data.trip.legs.length !== 1) throw new RoutingError('INVALID_ENGINE_RESPONSE');
   const trip = data.trip;
   const leg = trip.legs[0];
-  decode6(leg.shape);
+  const schematicPoints = plot(decode6(leg.shape));
   if (!trip.summary || typeof trip.summary.length !== 'number' || !Number.isFinite(trip.summary.length) || trip.summary.length < 0 ||
       typeof trip.summary.time !== 'number' || !Number.isFinite(trip.summary.time) || trip.summary.time < 0 ||
       !Array.isArray(leg.maneuvers) || !leg.maneuvers.length ||
       leg.maneuvers.some(m => !m || typeof m.instruction !== 'string' || !m.instruction.trim())) throw new RoutingError('INVALID_ENGINE_RESPONSE');
   return { status: 'UNKNOWN_ROUTE_SAFETY', safeRouteFound: false, truckRouteVerified: false,
     message: 'DO NOT PROCEED using this experimental route for navigation. Clearance coverage is unverified.',
-    route: { geometry: { encodedPolyline: leg.shape, precision: 6 }, distanceMeters: trip.summary.length * 1000,
+    route: { geometry: { encodedPolyline: leg.shape, precision: 6, schematicPoints }, distanceMeters: trip.summary.length * 1000,
       durationSeconds: trip.summary.time, maneuvers: leg.maneuvers.map(m => ({ instruction: m.instruction })) },
     provenance: { ...provenance, engine: 'Valhalla', requestedEngineVersion: '3.9.0', restrictionCoverage: 'unknown', attribution: '© OpenStreetMap contributors', license: 'ODbL-1.0' }
   };
