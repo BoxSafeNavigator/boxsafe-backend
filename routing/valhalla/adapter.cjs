@@ -105,7 +105,9 @@ function createRouter({ endpoint, provenance = {}, fetchImpl = fetch, timeoutMs 
         if (bytes > 2000000) throw new RoutingError('INVALID_ENGINE_RESPONSE');
         chunks.push(Buffer.from(chunk));
       }
-      const result = normalize(JSON.parse(Buffer.concat(chunks).toString('utf8')), provenance);
+      const data = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+      if (data.boxsafe_endpoint_assessment?.checked !== true || data.boxsafe_endpoint_assessment?.scope !== 'graph_candidate_endpoints_only' || data.boxsafe_endpoint_assessment?.clearanceVerified !== false) throw new RoutingError('ENDPOINT_COMPATIBILITY_UNVERIFIED');
+      const result = normalize(data, provenance);
       result.preferenceAssessment = {
         requested: { preferFewerFreeways: !!input.preferences?.preferFewerFreeways, preferFewerTolls: !!input.preferences?.preferFewerTolls },
         avoidanceVerified: false,
