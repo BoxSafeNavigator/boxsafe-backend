@@ -1,0 +1,31 @@
+{
+  "truck": {
+    "height": 4,
+    "width": 2,
+    "length": 6,
+    "weight": 2,
+    "axle_load": 1
+  },
+  "identitySource": "original_trip",
+  "routeGraphBuildId": "synthetic-example",
+  "evidenceGraphBuildId": "synthetic-example",
+  "routeEdgeIds": [
+    "7"
+  ],
+  "edges": [
+    {
+      "graphEdgeId": "7",
+      "truckAccess": true,
+      "hasRestrictions": true,
+      "restrictions": [
+        {
+          "type": "max_height",
+          "value": 3,
+          "unit": "m",
+          "truck": true,
+          "conditional": false
+        }
+      ]
+    }
+  ]
+}
