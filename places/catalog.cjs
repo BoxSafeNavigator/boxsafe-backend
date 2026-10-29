@@ -1,5 +1,5 @@
 'use strict';
-const CATEGORIES = ['restaurant', 'hotel', 'rest_area', 'truck_stop', 'scenic_stop'];
+const CATEGORIES = ['restaurant', 'hotel', 'rest_area', 'truck_stop', 'scenic_stop', 'weigh_station'];
 const STATES = ['confirmed', 'unknown', 'unsuitable'];
 function date(value) {
   if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)) return NaN;
@@ -45,6 +45,7 @@ function importCatalog(records, now = Date.now()) {
 function presentPlace(p, { now = Date.now(), freshnessDays = 90 } = {}) {
   const errors = validatePlace(p, now);
   if (errors.length) throw Error('INVALID_PLACE');
+  if (p.reviewStatus === 'research_only') throw Error('RESEARCH_RECORD_NOT_PUBLISHABLE');
   if (!Number.isFinite(freshnessDays) || freshnessDays <= 0 || freshnessDays > 365) throw Error('INVALID_FRESHNESS_POLICY');
   const assess = key => {
     const c = p[key];
