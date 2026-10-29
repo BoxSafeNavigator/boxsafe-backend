@@ -1,0 +1,22 @@
+[
+  {
+    "case": "height",
+    "overLimit": false,
+    "blocked": false
+  },
+  {
+    "case": "height",
+    "overLimit": true,
+    "blocked": true
+  },
+  {
+    "case": "weight",
+    "overLimit": false,
+    "blocked": false
+  },
+  {
+    "case": "weight",
+    "overLimit": true,
+    "blocked": true
+  }
+]
