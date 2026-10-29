@@ -51,3 +51,20 @@ test('HTTP transport: success, no-route, bad JSON, timeout; no fallback requests
     assert.equal(requests, 4);
   } finally { server.closeAllConnections(); await new Promise(r => server.close(r)); }
 });
+
+test('toll and freeway preferences retain truck restrictions', () => {
+  const i = input(); i.preferences = { preferFewerFreeways: true, preferFewerTolls: true };
+  const r = buildRequest(i); const t = r.costing_options.truck;
+  assert.equal(t.use_highways, 0); assert.equal(t.use_tolls, 0);
+  assert.equal(r.costing, 'truck'); assert.equal(t.ignore_restrictions, false);
+  assert.equal(t.ignore_access, false); assert.equal(t.hgv_no_access_penalty, 43200);
+});
+test('default preferences remain neutral', () => {
+  const t = buildRequest(input()).costing_options.truck;
+  assert.equal(t.use_highways, 0.5); assert.equal(t.use_tolls, 0.5);
+});
+for (const preferences of [null, [], { preferFewerTolls: 'true' }, { ignore_restrictions: true }]) {
+  test('reject invalid preference '+JSON.stringify(preferences), () => {
+    assert.throws(() => buildRequest({ ...input(), preferences }), /INVALID_ROUTE_INPUT/);
+  });
+}
