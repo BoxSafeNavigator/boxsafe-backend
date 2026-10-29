@@ -19,9 +19,12 @@ try:
     report['nodeVersion']=subprocess.check_output([node,'--version'],text=True).strip()
     if int(report['nodeVersion'].split('.')[0].lstrip('v'))<18:raise RuntimeError('Node 18 or newer required')
     source_paths=[repo/'routing/valhalla/adapter.cjs',repo/'routing/valhalla/server.cjs',runtime/'endpoint_guard.py',runtime/'actor-http.py',runtime/'guarded-http-smoke.py',pathlib.Path(__file__).resolve()]
+    source_paths+=sorted(runtime.glob('test_*.py'))
+    source_paths+=[runtime/'route_restrictions.py',runtime/'audit-route-evidence.py',runtime/'path_evidence.py']
+    source_paths+=sorted((runtime/'evidence-examples').glob('*.json'))
     report['sourceSha256']={str(path.relative_to(repo)):hashlib.sha256(path.read_bytes()).hexdigest() for path in source_paths}
     commands=[('node-tests',[node,'--test',*[str(path) for path in sorted((repo/'test').glob('*.test.cjs'))]],60),
-              ('python-guard-tests',[sys.executable,'-m','unittest','discover','-s',str(runtime),'-p','test_endpoint_guard.py'],30),
+              ('python-runtime-tests',[sys.executable,'-m','unittest','discover','-s',str(runtime),'-p','test_*.py'],30),
               ('real-engine-http',[sys.executable,str(runtime/'guarded-http-smoke.py'),'--work-dir',str(work/'fixture')],120)]
     for name,command,timeout in commands:
         with open(work/(name+'.log'),'w') as log:
