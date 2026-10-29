@@ -1,0 +1,17 @@
+--- a/src/bindings/python/src/actor.cc
++++ b/src/bindings/python/src/actor.cc
+@@ -45,6 +45,14 @@
+       .def(
+           "route", [](vt::actor_t& self, std::string& req) { return self.route(req); },
+           nb::call_guard<nb::gil_scoped_release>())
++      .def("route_bytes", [](vt::actor_t& self, std::string& req) -> nb::bytes {
++        std::string result;
++        {
++          nb::gil_scoped_release release;
++          result = self.route(req);
++        }
++        return nb::bytes(result.data(), result.size());
++      })
+       .def(
+           "locate", [](vt::actor_t& self, std::string& req) { return self.locate(req); },
+           nb::call_guard<nb::gil_scoped_release>())
