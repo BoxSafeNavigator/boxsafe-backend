@@ -10,7 +10,7 @@ function encode(points) { let lat = 0, lon = 0, out = ''; for (const p of points
     while (n >= 32) { out += String.fromCharCode((n % 32) + 95); n = Math.floor(n / 32); } out += String.fromCharCode(n + 63); }
   [lat, lon] = p; } return out; }
 const shape = encode([[34920000, -81030000], [34930000, -81040000]]);
-const good = () => ({ trip: { status: 0, units: 'kilometers', summary: { length: 2, time: 120 }, legs: [{ shape, maneuvers: [{ instruction: 'Head north.' }] }] } });
+const good = () => ({ boxsafe_endpoint_assessment: {checked:true,scope:'graph_candidate_endpoints_only',clearanceVerified:false}, trip: { status: 0, units: 'kilometers', summary: { length: 2, time: 120 }, legs: [{ shape, maneuvers: [{ instruction: 'Head north.' }] }] } });
 test('converts US units and prevents caller restriction overrides', () => {
   const i = input(); i.costing = 'auto'; i.truck.ignore_restrictions = true;
   const r = buildRequest(i); assert.equal(r.costing, 'truck');
@@ -68,3 +68,8 @@ for (const preferences of [null, [], { preferFewerTolls: 'true' }, { ignore_rest
     assert.throws(() => buildRequest({ ...input(), preferences }), /INVALID_ROUTE_INPUT/);
   });
 }
+test('router rejects engine responses without endpoint assessment',async()=>{
+ const data=good();delete data.boxsafe_endpoint_assessment;
+ const route=createRouter({endpoint:'http://127.0.0.1:8002',fetchImpl:async()=>new Response(JSON.stringify(data))});
+ await assert.rejects(route(input()),/ENDPOINT_COMPATIBILITY_UNVERIFIED/);
+});
