@@ -89,6 +89,20 @@ function decode6(shape) {
   if (points.length < 2 || !points.some(p => p[0] !== points[0][0] || p[1] !== points[0][1])) throw new RoutingError('INVALID_ENGINE_GEOMETRY');
   return points;
 }
+// Conservative prototype policy: proximity does not verify entrance or clearance.
+function endpointDistance(a, b) {
+  const radians = n => n * Math.PI / 180;
+  const lat = radians(b.lat - a.lat), lon = radians(b.lon - a.lon);
+  const h = Math.sin(lat / 2) ** 2 + Math.cos(radians(a.lat)) * Math.cos(radians(b.lat)) * Math.sin(lon / 2) ** 2;
+  return 6371008.8 * 2 * Math.asin(Math.sqrt(Math.min(1, Math.max(0, h))));
+}
+function checkRouteEndpoints(data, locations) {
+  const points = decode6(data.trip.legs[0].shape);
+  const endpoints = [points[0], points[points.length - 1]];
+  if (endpoints.some(([lon, lat], i) => endpointDistance(locations[i], { lat, lon }) > 50)) {
+    throw new RoutingError('ROUTE_ENDPOINT_MISMATCH');
+  }
+}
 function createRouter({ endpoint, provenance = {}, fetchImpl = fetch, timeoutMs = 10000 }) {
   const url = new URL(endpoint);
   if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) throw Error('Invalid configured engine URL');
@@ -108,6 +122,7 @@ function createRouter({ endpoint, provenance = {}, fetchImpl = fetch, timeoutMs 
       const data = JSON.parse(Buffer.concat(chunks).toString('utf8'));
       if (data.boxsafe_endpoint_assessment?.checked !== true || data.boxsafe_endpoint_assessment?.scope !== 'graph_candidate_endpoints_only' || data.boxsafe_endpoint_assessment?.clearanceVerified !== false) throw new RoutingError('ENDPOINT_COMPATIBILITY_UNVERIFIED');
       const result = normalize(data, provenance);
+      checkRouteEndpoints(data, payload.locations);
       result.preferenceAssessment = {
         requested: { preferFewerFreeways: !!input.preferences?.preferFewerFreeways, preferFewerTolls: !!input.preferences?.preferFewerTolls },
         avoidanceVerified: false,
