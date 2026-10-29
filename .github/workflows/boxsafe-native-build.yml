@@ -10,7 +10,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          repository: BoxSafeNavigator/boxsafe-backend
+          ref: 90ac77c36b77f938dc06c7862fdf96d9caaacc21
           persist-credentials: false
+      - name: Record tested source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD | tee tested-source.txt
+          test "$(git rev-parse HEAD)" = 90ac77c36b77f938dc06c7862fdf96d9caaacc21
       - name: Build patched wheel
         shell: bash
         run: |
@@ -37,6 +45,7 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
           path: |
+            tested-source.txt
             native-build.log
             fixture-tests.log
             ${{ runner.temp }}/binary-verification/
