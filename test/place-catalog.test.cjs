@@ -36,3 +36,16 @@ test('invalid source protocol and evidence index rejected',()=>{
 test('unbounded catalog and invalid freshness policy rejected',()=>{
  assert.throws(()=>importCatalog({}));assert.throws(()=>presentPlace(record(),{now,freshnessDays:-1}));
 });
+
+test('official research candidates remain unverified and preserve conditional parking notes',()=>{
+ const records=require('../places/sc-official-research.json');
+ const result=importCatalog(records,Date.now()); assert.equal(result.accepted.length,7);assert.equal(result.rejected.length,0);
+ for(const p of result.accepted){assert.equal(p.reviewStatus,'research_only');assert.equal(p.truckAccess.status,'unknown');assert.equal(p.truckParking.status,'unknown');assert.match(p.parkingCondition,/closed/);}
+});
+test('conflicting I-77 source coordinates remain outside candidate catalog',()=>{
+ const held=require('../places/sc-held-records.json');assert.equal(held.status,'held_for_review');assert.equal(held.records.length,2);
+ const records=require('../places/sc-official-research.json');assert.ok(records.every(p=>!p.road.startsWith('I-77')));
+});
+test('research candidates cannot be presented as usable listings',()=>{
+ const p=require('../places/sc-official-research.json')[0];assert.throws(()=>presentPlace(p),/RESEARCH_RECORD_NOT_PUBLISHABLE/);
+});
