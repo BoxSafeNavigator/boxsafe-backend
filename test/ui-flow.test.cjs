@@ -8,7 +8,7 @@ function screen(fetchImpl) {
   function element(id) {
     if (!elements.has(id)) {
       const classes = new Set(); const events = {};
-      elements.set(id, { textContent: '', classList: { add: c => classes.add(c), remove: c => classes.delete(c),
+      elements.set(id, { textContent: '', setAttribute() {}, classList: { add: c => classes.add(c), remove: c => classes.delete(c),
         toggle: (c,on) => on ? classes.add(c) : classes.delete(c), contains: c => classes.has(c) },
         addEventListener: (event, fn) => { const previous=events[event]; events[event]=(...args)=>{if(previous)previous(...args);fn(...args)}; }, events });
     }
@@ -60,6 +60,6 @@ test('engine failure clears sample and displays stop message',async()=>{
  await s.element('engine').onclick();assert.equal(calls,1);assert.match(s.element('engineStatus').textContent,/DO NOT PROCEED/);assert.equal(s.element('result').classList.contains('hidden'),true);
 });
 test('unverified engine result is rendered as text without assurance',async()=>{
- const s=screen(async()=>({ok:true,json:async()=>({safeRouteFound:false,truckRouteVerified:false,status:'UNKNOWN_ROUTE_SAFETY',route:{distanceMeters:2000,durationSeconds:120,maneuvers:[{instruction:'Fixture'}]}})}));
+ const s=screen(async()=>({ok:true,json:async()=>({safeRouteFound:false,truckRouteVerified:false,status:'UNKNOWN_ROUTE_SAFETY',route:{geometry:{schematicPoints:'30.00,360.00 570.00,30.00'},distanceMeters:2000,durationSeconds:120,maneuvers:[{instruction:'Fixture'}]}})}));
  s.submit('truckForm',profile);s.submit('routeForm',journey);await s.element('engine').onclick();assert.match(s.element('engineStatus').textContent,/clearance unverified/);assert.match(s.element('engineResult').textContent,/Fixture/);
 });
