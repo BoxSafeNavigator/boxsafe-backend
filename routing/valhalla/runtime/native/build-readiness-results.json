@@ -1,0 +1,18 @@
+{
+  "tools": {
+    "c++": "/usr/bin/c++",
+    "cmake": null,
+    "ninja": null,
+    "protoc": null,
+    "pkg-config": null
+  },
+  "standardHeaders": {
+    "boost": false,
+    "protobuf": false
+  },
+  "navigationReady": false,
+  "nativeBuildVerified": false,
+  "note": "Standard include paths only; custom dependency prefixes require a successful CMake configure.",
+  "cmakePythonPackageVersion": "3.31.6",
+  "ninjaPythonPackageVersion": "1.11.1.4"
+}
