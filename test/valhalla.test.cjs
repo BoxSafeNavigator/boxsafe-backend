@@ -73,3 +73,18 @@ test('router rejects engine responses without endpoint assessment',async()=>{
  const route=createRouter({endpoint:'http://127.0.0.1:8002',fetchImpl:async()=>new Response(JSON.stringify(data))});
  await assert.rejects(route(input()),/ENDPOINT_COMPATIBILITY_UNVERIFIED/);
 });
+
+for (const [name, points] of [
+  ['shifted origin', [[34921000, -81030000], [34930000, -81040000]]],
+  ['shifted destination', [[34920000, -81030000], [34931000, -81040000]]],
+  ['reversed endpoints', [[34930000, -81040000], [34920000, -81030000]]]
+]) test('router rejects '+name+' despite a positive endpoint assessment', async () => {
+  const data = good(); data.trip.legs[0].shape = encode(points);
+  const router = createRouter({ endpoint: 'http://127.0.0.1:8002', fetchImpl: async () => new Response(JSON.stringify(data)) });
+  await assert.rejects(router(input()), { code: 'ROUTE_ENDPOINT_MISMATCH' });
+});
+test('nearby returned endpoints stay experimental', async () => {
+  const data = good(); data.trip.legs[0].shape = encode([[34920200, -81030000], [34929800, -81040000]]);
+  const router = createRouter({ endpoint: 'http://127.0.0.1:8002', fetchImpl: async () => new Response(JSON.stringify(data)) });
+  assert.equal((await router(input())).safeRouteFound, false);
+});
