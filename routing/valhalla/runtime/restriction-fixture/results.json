@@ -1,0 +1,54 @@
+{
+  "syntheticOnly": true,
+  "results": [
+    {
+      "case": "height",
+      "restrictedProfile": false,
+      "costing": "truck",
+      "detourObserved": false,
+      "distanceKm": 1.845,
+      "passed": true
+    },
+    {
+      "case": "height",
+      "restrictedProfile": true,
+      "costing": "truck",
+      "detourObserved": true,
+      "distanceKm": 4.071,
+      "passed": true
+    },
+    {
+      "case": "weight",
+      "restrictedProfile": false,
+      "costing": "truck",
+      "detourObserved": false,
+      "distanceKm": 1.844,
+      "passed": true
+    },
+    {
+      "case": "weight",
+      "restrictedProfile": true,
+      "costing": "truck",
+      "detourObserved": true,
+      "distanceKm": 4.07,
+      "passed": true
+    },
+    {
+      "case": "hgv_access",
+      "restrictedProfile": false,
+      "costing": "auto",
+      "detourObserved": false,
+      "distanceKm": 1.841,
+      "passed": true
+    },
+    {
+      "case": "hgv_access",
+      "restrictedProfile": true,
+      "costing": "truck",
+      "detourObserved": true,
+      "distanceKm": 4.066,
+      "passed": true
+    }
+  ],
+  "allPassed": true
+}
