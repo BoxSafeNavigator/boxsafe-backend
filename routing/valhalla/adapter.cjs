@@ -13,6 +13,11 @@ function measure(item, factors, min, max) {
 }
 function buildRequest(input) {
   if (!input || !input.truck || !Array.isArray(input.locations) || input.locations.length !== 2) fail();
+  const preferences = input.preferences === undefined ? {} : input.preferences;
+  if (!preferences || typeof preferences !== 'object' || Array.isArray(preferences)) fail();
+  for (const key of Object.keys(preferences)) {
+    if (!['preferFewerFreeways', 'preferFewerTolls'].includes(key) || typeof preferences[key] !== 'boolean') fail();
+  }
   const p = input.truck;
   const length = { m: 1, ft: 0.3048, in: 0.0254 };
   const mass = { tonnes: 1, kg: 0.001, lb: 0.00045359237 };
@@ -26,6 +31,8 @@ function buildRequest(input) {
     hazmat: p.hazmat,
     ignore_restrictions: false, ignore_access: false, ignore_oneways: false,
     ignore_non_vehicular_restrictions: false, ignore_closures: false,
+    use_highways: preferences.preferFewerFreeways ? 0 : 0.5,
+    use_tolls: preferences.preferFewerTolls ? 0 : 0.5,
     hgv_no_access_penalty: 43200
   };
   if (!Number.isInteger(truck.axle_count) || typeof truck.hazmat !== 'boolean' || truck.axle_load > truck.weight) fail();
@@ -97,7 +104,13 @@ function createRouter({ endpoint, provenance = {}, fetchImpl = fetch, timeoutMs 
         if (bytes > 2000000) throw new RoutingError('INVALID_ENGINE_RESPONSE');
         chunks.push(Buffer.from(chunk));
       }
-      return normalize(JSON.parse(Buffer.concat(chunks).toString('utf8')), provenance);
+      const result = normalize(JSON.parse(Buffer.concat(chunks).toString('utf8')), provenance);
+      result.preferenceAssessment = {
+        requested: { preferFewerFreeways: !!input.preferences?.preferFewerFreeways, preferFewerTolls: !!input.preferences?.preferFewerTolls },
+        avoidanceVerified: false,
+        message: 'Preferences are not exclusions. Toll and freeway avoidance has not been verified.'
+      };
+      return result;
     } catch (error) {
       if (error instanceof RoutingError) throw error;
       throw new RoutingError('TRUCK_ROUTING_UNAVAILABLE', 503);
