@@ -1,0 +1,194 @@
+{
+  "trip": {
+    "locations": [
+      {
+        "type": "break",
+        "lat": 34.9249,
+        "lon": -81.0251,
+        "original_index": 0
+      },
+      {
+        "type": "break",
+        "lat": 34.9515,
+        "lon": -81.0037,
+        "side_of_street": "right",
+        "original_index": 1
+      }
+    ],
+    "legs": [
+      {
+        "maneuvers": [
+          {
+            "type": 1,
+            "instruction": "Drive northeast on South Oakland Avenue/US 21 Business. Continue on US 21 Business.",
+            "verbal_succinct_transition_instruction": "Drive northeast.",
+            "verbal_pre_transition_instruction": "Drive northeast on South Oakland Avenue, US 21 Business.",
+            "verbal_post_transition_instruction": "Continue on US 21 Business for 2 kilometers.",
+            "street_names": [
+              "US 21 Business"
+            ],
+            "begin_street_names": [
+              "South Oakland Avenue",
+              "US 21 Business"
+            ],
+            "bearing_after": 38,
+            "time": 152.928,
+            "length": 2.218,
+            "cost": 35569.957,
+            "begin_shape_index": 0,
+            "end_shape_index": 72,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          },
+          {
+            "type": 10,
+            "instruction": "Turn right onto North Cherry Road/US 21 Business.",
+            "verbal_transition_alert_instruction": "Turn right onto North Cherry Road.",
+            "verbal_succinct_transition_instruction": "Turn right.",
+            "verbal_pre_transition_instruction": "Turn right onto North Cherry Road, US 21 Business.",
+            "verbal_post_transition_instruction": "Continue for 3 kilometers.",
+            "street_names": [
+              "North Cherry Road",
+              "US 21 Business"
+            ],
+            "bearing_before": 337,
+            "bearing_after": 66,
+            "time": 177.147,
+            "length": 2.762,
+            "cost": 184.488,
+            "begin_shape_index": 72,
+            "end_shape_index": 167,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          },
+          {
+            "type": 10,
+            "instruction": "Turn right onto Caswell Street.",
+            "verbal_transition_alert_instruction": "Turn right onto Caswell Street.",
+            "verbal_succinct_transition_instruction": "Turn right.",
+            "verbal_pre_transition_instruction": "Turn right onto Caswell Street.",
+            "verbal_post_transition_instruction": "Continue for 300 meters.",
+            "street_names": [
+              "Caswell Street"
+            ],
+            "bearing_before": 51,
+            "bearing_after": 121,
+            "time": 39.819,
+            "length": 0.309,
+            "cost": 90.796,
+            "begin_shape_index": 167,
+            "end_shape_index": 173,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          },
+          {
+            "type": 10,
+            "instruction": "Turn right onto Eden Terrace.",
+            "verbal_transition_alert_instruction": "Turn right onto Eden Terrace.",
+            "verbal_succinct_transition_instruction": "Turn right. Then Turn left onto Rabun Lane.",
+            "verbal_pre_transition_instruction": "Turn right onto Eden Terrace. Then Turn left onto Rabun Lane.",
+            "verbal_post_transition_instruction": "Continue for 50 meters.",
+            "street_names": [
+              "Eden Terrace"
+            ],
+            "bearing_before": 137,
+            "bearing_after": 233,
+            "time": 10.434,
+            "length": 0.048,
+            "cost": 25.644,
+            "begin_shape_index": 173,
+            "end_shape_index": 174,
+            "verbal_multi_cue": true,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          },
+          {
+            "type": 15,
+            "instruction": "Turn left onto Rabun Lane.",
+            "verbal_transition_alert_instruction": "Turn left onto Rabun Lane.",
+            "verbal_succinct_transition_instruction": "Turn left.",
+            "verbal_pre_transition_instruction": "Turn left onto Rabun Lane.",
+            "verbal_post_transition_instruction": "Continue for 400 meters.",
+            "street_names": [
+              "Rabun Lane"
+            ],
+            "bearing_before": 233,
+            "bearing_after": 145,
+            "time": 53.387,
+            "length": 0.429,
+            "cost": 105.882,
+            "begin_shape_index": 174,
+            "end_shape_index": 176,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          },
+          {
+            "type": 10,
+            "instruction": "Turn right onto Rabun Circle.",
+            "verbal_transition_alert_instruction": "Turn right onto Rabun Circle.",
+            "verbal_succinct_transition_instruction": "Turn right.",
+            "verbal_pre_transition_instruction": "Turn right onto Rabun Circle.",
+            "verbal_post_transition_instruction": "Continue for 200 meters.",
+            "street_names": [
+              "Rabun Circle"
+            ],
+            "bearing_before": 143,
+            "bearing_after": 238,
+            "time": 31.542,
+            "length": 0.212,
+            "cost": 57.191,
+            "begin_shape_index": 176,
+            "end_shape_index": 179,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          },
+          {
+            "type": 5,
+            "instruction": "Your destination is on the right.",
+            "verbal_transition_alert_instruction": "Your destination will be on the right.",
+            "verbal_pre_transition_instruction": "Your destination is on the right.",
+            "bearing_before": 145,
+            "time": 0.0,
+            "length": 0.0,
+            "cost": 0.0,
+            "begin_shape_index": 179,
+            "end_shape_index": 179,
+            "travel_mode": "drive",
+            "travel_type": "truck"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": 34.924879,
+          "min_lon": -81.031099,
+          "max_lat": 34.958781,
+          "max_lon": -81.002993,
+          "time": 465.26,
+          "length": 5.978,
+          "cost": 36033.96
+        },
+        "shape": "_tsraAvbkpyCyAwAmFgFsGmGoKeK{BsAqFiDmLyEiJsCsNcCoX{DeIkA{_@sFkI_AsJuAaHcAyIoAsJuAqCa@}QkCiEo@_AMsDi@{GaAiG[eCEqEJqFf@oIdByG|B_C|@}HjEgE|BgKxFcSxKqFxCwBjAyIzD_JzDaJfEuU~JyX~LiF|ByJjEeInD_PdHoItDgJ`E}k@jWsHbDmF`Cel@vV_GhC}IdE{FdCsQ|HoUbKe^vOcf@|UeDk@sfAne@iAh@cOnGmu@n\\wDbBi_@lOuDjB_DxAmdAbe@iBv@gkAxg@gXtLcRzHmIw[kD{MiNij@iG{UoBuH_Lyb@uEuReBgHgBmHuA}E{@}CiAaEcDcKoA}DgA{CUi@cD}IaAoC}CeH}@yBkHmO{@aB}FcL_BoCaDuFmAqBsIaN{OyUuCgEqVw^s_@}j@uIiMkBwCkKsOiW}_@_^yh@{BiDcy@qmAyo@}`A_RqXkEoGoEwGeG_JaQeWeCsDqBeCkBcDwCkEyEaHgEeGq@eAmHoKmIyLqL}PkUu]yNsTsIkMgFuHkGmJyDyFcI{LwJuNcAyAqCeEiHsKsE{GeCuD_EsGwBqC{BeDgBmCoOgUsVo^}K{PoIeM}BiDk@{@gHqKmF_I_@k@qQiXeCuD{EiHm^aj@eL_QePqVW_@cEkGwKkPum@y~@qKcPgIkMkI{LoDoMuQ_[xFyN~b@mc@n@q@tDyDleA_gAnFoGfO|XdoBe}AhrAylAfQbb@~IzDtz@er@"
+      }
+    ],
+    "summary": {
+      "has_time_restrictions": false,
+      "has_toll": false,
+      "has_highway": false,
+      "has_ferry": false,
+      "min_lat": 34.924879,
+      "min_lon": -81.031099,
+      "max_lat": 34.958781,
+      "max_lon": -81.002993,
+      "time": 465.26,
+      "length": 5.978,
+      "cost": 36033.96
+    },
+    "status_message": "Found route between points",
+    "status": 0,
+    "units": "kilometers",
+    "language": "en-US"
+  }
+}
