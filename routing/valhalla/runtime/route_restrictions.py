@@ -23,13 +23,16 @@ def audit(packet):
   elif edge.get('truckAccess') is not True:unknown.append('TRUCK_ACCESS_UNKNOWN')
   restrictions=edge.get('restrictions')
   if not isinstance(restrictions,list):unknown.append('RESTRICTIONS_UNKNOWN');continue
-  if edge.get('hasRestrictions') is not False and not restrictions:unknown.append('RESTRICTION_COVERAGE_UNKNOWN')
+  flag=edge.get('hasRestrictions')
+  if type(flag) is not bool:unknown.append('RESTRICTION_COVERAGE_UNKNOWN')
+  elif flag!=bool(restrictions):unknown.append('RESTRICTION_FLAG_INCONSISTENT')
   for restriction in restrictions:
    if not isinstance(restriction,dict):unknown.append('MALFORMED_RESTRICTION');continue
    # No temporal or conditional interpretation in this prototype.
    if restriction.get('conditional') is not False:unknown.append('CONDITION_UNKNOWN_OR_UNSUPPORTED');continue
    if restriction.get('truck') is False:continue
-   pair=FIELDS.get(restriction.get('type'))
+   kind=restriction.get('type')
+   pair=FIELDS.get(kind) if isinstance(kind,str) else None
    if restriction.get('truck') is not True or not pair:unknown.append('UNSUPPORTED_RESTRICTION');continue
    field,unit=pair;limit=restriction.get('value')
    if restriction.get('unit')!=unit or not positive(limit) or not positive(truck.get(field)):unknown.append('INVALID_RESTRICTION_VALUE_OR_UNIT');continue
