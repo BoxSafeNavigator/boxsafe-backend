@@ -1,0 +1,540 @@
+{
+  "syntheticOnly": true,
+  "engineVersion": "3.9.0",
+  "cases": [
+    {
+      "restriction": "height",
+      "scenario": "no_alternative_control",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.0,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.0,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": true,
+      "summary": {
+        "has_time_restrictions": false,
+        "has_toll": false,
+        "has_highway": false,
+        "has_ferry": false,
+        "min_lat": 34.0,
+        "min_lon": -81.0,
+        "max_lat": 34.0,
+        "max_lon": -80.98,
+        "time": 88.559,
+        "length": 1.845,
+        "cost": 75.276
+      },
+      "geometry": "_gez_A~bznyC?owH?_pR?owH",
+      "expectationMet": true
+    },
+    {
+      "restriction": "height",
+      "scenario": "no_alternative_restricted",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.0,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.0,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 4,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No path could be found for input",
+      "expectationMet": true
+    },
+    {
+      "restriction": "height",
+      "scenario": "restricted_origin",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.0,
+            "lon": -80.99,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.0,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 4,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": true,
+      "summary": {
+        "has_time_restrictions": false,
+        "has_toll": false,
+        "has_highway": false,
+        "has_ferry": false,
+        "min_lat": 34.0,
+        "min_lon": -80.99,
+        "max_lat": 34.0,
+        "max_lon": -80.98,
+        "time": 44.3,
+        "length": 0.922,
+        "cost": 39.14
+      },
+      "geometry": "_gez_A~qfnyC?owH?owH",
+      "expectationMet": false
+    },
+    {
+      "restriction": "height",
+      "scenario": "restricted_destination",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.0,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.0,
+            "lon": -80.99,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 4,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No path could be found for input",
+      "expectationMet": true
+    },
+    {
+      "restriction": "weight",
+      "scenario": "no_alternative_control",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.1,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.1,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": true,
+      "summary": {
+        "has_time_restrictions": false,
+        "has_toll": false,
+        "has_highway": false,
+        "has_ferry": false,
+        "min_lat": 34.1,
+        "min_lon": -81.0,
+        "max_lat": 34.1,
+        "max_lon": -80.98,
+        "time": 88.512,
+        "length": 1.844,
+        "cost": 75.235
+      },
+      "geometry": "_qh``A~bznyC?owH?_pR?owH",
+      "expectationMet": true
+    },
+    {
+      "restriction": "weight",
+      "scenario": "no_alternative_restricted",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.1,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.1,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 10,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No path could be found for input",
+      "expectationMet": true
+    },
+    {
+      "restriction": "weight",
+      "scenario": "restricted_origin",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.1,
+            "lon": -80.99,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.1,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 10,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": true,
+      "summary": {
+        "has_time_restrictions": false,
+        "has_toll": false,
+        "has_highway": false,
+        "has_ferry": false,
+        "min_lat": 34.1,
+        "min_lon": -80.99,
+        "max_lat": 34.1,
+        "max_lon": -80.98,
+        "time": 44.278,
+        "length": 0.922,
+        "cost": 39.121
+      },
+      "geometry": "_qh``A~qfnyC?owH?owH",
+      "expectationMet": false
+    },
+    {
+      "restriction": "weight",
+      "scenario": "restricted_destination",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.1,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.1,
+            "lon": -80.99,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 10,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No path could be found for input",
+      "expectationMet": true
+    },
+    {
+      "restriction": "hgv_access",
+      "scenario": "no_alternative_control",
+      "costing": "auto",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.2,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.2,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "auto",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": true,
+      "summary": {
+        "has_time_restrictions": false,
+        "has_toll": false,
+        "has_highway": false,
+        "has_ferry": false,
+        "min_lat": 34.199999,
+        "min_lon": -81.0,
+        "max_lat": 34.2,
+        "max_lon": -80.98,
+        "time": 88.368,
+        "length": 1.841,
+        "cost": 75.112
+      },
+      "geometry": "_{kf`A~bznyC?owH?_pR?owH",
+      "expectationMet": true
+    },
+    {
+      "restriction": "hgv_access",
+      "scenario": "no_alternative_restricted",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.2,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.2,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No path could be found for input",
+      "expectationMet": true
+    },
+    {
+      "restriction": "hgv_access",
+      "scenario": "restricted_origin",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.2,
+            "lon": -80.99,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.2,
+            "lon": -80.98,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No suitable edges near location",
+      "expectationMet": true
+    },
+    {
+      "restriction": "hgv_access",
+      "scenario": "restricted_destination",
+      "costing": "truck",
+      "request": {
+        "locations": [
+          {
+            "lat": 34.2,
+            "lon": -81,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          },
+          {
+            "lat": 34.2,
+            "lon": -80.99,
+            "minimum_reachability": 1,
+            "search_cutoff": 100
+          }
+        ],
+        "costing": "truck",
+        "costing_options": {
+          "truck": {
+            "height": 2,
+            "weight": 2,
+            "width": 2,
+            "length": 6,
+            "axle_load": 1,
+            "axle_count": 2,
+            "ignore_restrictions": false,
+            "ignore_access": false,
+            "hgv_no_access_penalty": 43200
+          }
+        },
+        "units": "kilometers"
+      },
+      "routeReturned": false,
+      "engineError": "No suitable edges near location",
+      "expectationMet": true
+    }
+  ],
+  "releaseBlocked": true
+}
